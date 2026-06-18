@@ -54,6 +54,18 @@ Il **canone WB** vive in un repo separato ([`wb-tdme-simboli`](https://gitlab.co
 
 Compilazione: **XeLaTeX** (richiede il font Datalegreya e `circuitikz` per il ponte). Esempio: `TEXINPUTS=<root_di_sean>: xelatex documento.tex`.
 
+### Orientamento e rotazione
+
+Ogni segno ha un **puntamento naturale** (l'orientazione con cui è disegnato, quella mostrata nel catalogo). La rotazione è **per-istanza e a carico di chi scrive il diagramma** — non c'è (di proposito) alcuna rotazione automatica: lo stesso oggetto può servire in verticale e in orizzontale a seconda del routing (es. microfoni divisi in zone).
+
+```latex
+\pic            (m0) at (0,0) {sean symbol=gmic};   % naturale
+\pic[rotate=90] (m1) at (3,0) {sean symbol=gmic};   % ruotato; l'ancora m1-out segue la rotazione
+\draw[seg/analog,->] (m1-out) -- (a-in);            % la freccia di flusso la mette l'utente
+```
+
+Le **ancore seguono la rotazione** (sono coordinate interne al `pic`), quindi i collegamenti restano coerenti. Le **frecce di flusso** non stanno nei glifi: si aggiungono sul collegamento (`->`) o con uno stile a piacere.
+
 ## Riferimento dei comandi
 
 | Comando | Scopo |
