@@ -1,0 +1,12 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usepackage{circuitikz}
+\usetikzlibrary{sean}
+\input{../lib/bridge-circuitikz.tex}
+\seanusefont{circuitikz}
+\begin{document}
+\begin{tikzpicture}
+  \pic (a) at (0,0) {sean symbol=ampgen};
+  \pic (p) at (5,0) {sean symbol=phantom48};
+\end{tikzpicture}
+\end{document}
