@@ -1,0 +1,15 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\input{seantest.tex}
+\input{fonts/wb/font-wb.tex}
+\seanusefont{wb}
+\begin{document}
+\seanassertglyph{wb}{gmic}\seanassertglyph{wb}{lspk}\seanassertglyph{wb}{ampgen}
+\begin{tikzpicture}
+  \pic (m) at (0,0) {sean symbol=gmic};
+  \pic (a) at (2,0) {sean symbol=ampgen};
+  \pic (s) at (4,0) {sean symbol=lspk};
+  \draw[seg/analog] (m-out) |- (a-in); \draw[seg/analog] (a-out) -- (s-in);
+\end{tikzpicture}
+\end{document}
