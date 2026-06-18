@@ -61,10 +61,10 @@ Ogni segno ha un **puntamento naturale** (l'orientazione con cui è disegnato, q
 ```latex
 \pic            (m0) at (0,0) {sean symbol=gmic};   % naturale
 \pic[rotate=90] (m1) at (3,0) {sean symbol=gmic};   % ruotato; l'ancora m1-out segue la rotazione
-\draw[seg/analog,->] (m1-out) -- (a-in);            % la freccia di flusso la mette l'utente
+\draw[seg/analog] (m1-out) -- (a-in);               % collegamento (stesso spessore dei glifi)
 ```
 
-Le **ancore seguono la rotazione** (sono coordinate interne al `pic`), quindi i collegamenti restano coerenti. Le **frecce di flusso** non stanno nei glifi: si aggiungono sul collegamento (`->`) o con uno stile a piacere.
+Le **ancore seguono la rotazione** (sono coordinate interne al `pic`), quindi i collegamenti restano coerenti. I collegamenti `seg/*` hanno lo **stesso spessore dei glifi** (`very thin`). Le **frecce di direzione** non stanno né nei glifi né nei collegamenti per default: se servono, le aggiunge l'utente in modo esplicito (`->`).
 
 ## Riferimento dei comandi
 

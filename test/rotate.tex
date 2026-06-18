@@ -10,7 +10,7 @@
   \pic            (m0) at (0,0) {sean symbol=gmic};      % puntamento naturale
   \pic[rotate=90] (m1) at (3,0) {sean symbol=gmic};      % ruotato +90
   \pic            (a1) at (6,0) {sean symbol=ampgen};
-  \draw[seg/analog,->] (m1-out) -- (a1-in);              % l'ancora 'out' ha seguito la rotazione
+  \draw[seg/analog] (m1-out) -- (a1-in);                 % l'ancora 'out' ha seguito la rotazione
   \node[font=\tiny] at (0,-1.6) {naturale};
   \node[font=\tiny] at (3,-1.6) {rotate=90};
 \end{tikzpicture}

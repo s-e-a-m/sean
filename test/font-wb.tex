@@ -7,13 +7,14 @@
 \begin{document}
 \seanassertglyph{wb}{gmic}\seanassertglyph{wb}{lspk}\seanassertglyph{wb}{ampgen}
 % Catena orizzontale: l'utente ruota i segni a flusso verticale (microfono,
-% altoparlante) per orientarli; le ancore seguono la rotazione. Le frecce di
-% flusso (->) le aggiunge l'utente sui collegamenti, non sono nei glifi.
+% altoparlante) per orientarli; le ancore seguono la rotazione. I collegamenti
+% hanno lo stesso spessore dei glifi (very thin). Eventuali frecce di direzione
+% sono una scelta esplicita dell'utente (->), qui omesse.
 \begin{tikzpicture}
   \pic[rotate=90]  (m) at (0,0) {sean symbol=gmic};    % uscita verso destra
   \pic             (a) at (3,0) {sean symbol=ampgen};  % già orizzontale
   \pic[rotate=-90] (s) at (6,0) {sean symbol=lspk};    % ingresso da sinistra
-  \draw[seg/analog,->] (m-out) -- (a-in);
-  \draw[seg/analog,->] (a-out) -- (s-in);
+  \draw[seg/analog] (m-out) -- (a-in);
+  \draw[seg/analog] (a-out) -- (s-in);
 \end{tikzpicture}
 \end{document}
