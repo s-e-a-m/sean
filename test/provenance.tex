@@ -1,0 +1,11 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\input{seantest.tex}
+\seanfont{wb}{}
+\seanfontmeta{wb}{author=Walter Branchi, year=1976, note=Tecnologie della musica elettronica}
+\begin{document}
+\seanassertmeta{wb}{author}{Walter Branchi}
+\seanassertmeta{wb}{year}{1976}
+\begin{tikzpicture}\end{tikzpicture}
+\end{document}

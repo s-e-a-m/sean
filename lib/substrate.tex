@@ -27,6 +27,16 @@
   \expandafter\xdef\csname sean@parent@#1\endcsname{\pgfkeysvalueof{/sean/font/parent}}%
 }
 \newcommand{\seanparentof}[1]{\ifcsname sean@parent@#1\endcsname\csname sean@parent@#1\endcsname\fi}
+% --- metadati di provenienza per-font ---
+\pgfkeys{/sean/meta/.cd, author/.initial={}, year/.initial={}, note/.initial={}}
+\newcommand{\seanfontmeta}[2]{%
+  \pgfkeys{/sean/meta/.cd, author={}, year={}, note={}, #2}%
+  \expandafter\xdef\csname sean@meta@author@#1\endcsname{\pgfkeysvalueof{/sean/meta/author}}%
+  \expandafter\xdef\csname sean@meta@year@#1\endcsname{\pgfkeysvalueof{/sean/meta/year}}%
+  \expandafter\xdef\csname sean@meta@note@#1\endcsname{\pgfkeysvalueof{/sean/meta/note}}}
+\newcommand{\seanfontauthor}[1]{\ifcsname sean@meta@author@#1\endcsname\csname sean@meta@author@#1\endcsname\fi}
+\newcommand{\seanfontyear}[1]{\ifcsname sean@meta@year@#1\endcsname\csname sean@meta@year@#1\endcsname\fi}
+\newcommand{\seanfontnote}[1]{\ifcsname sean@meta@note@#1\endcsname\csname sean@meta@note@#1\endcsname\fi}
 % --- font attivo ---
 \def\sean@active{wb}
 \newcommand{\seanusefont}[1]{\def\sean@active{#1}}
