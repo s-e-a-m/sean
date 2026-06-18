@@ -1,6 +1,15 @@
 % L0 — substrato (apparato critico). Riempito dai task successivi.
 \newlength{\seanunit}\setlength{\seanunit}{1cm}
 
+% --- stili di dominio (sulla connessione, indipendenti dal font) ---
+\tikzset{
+  seg/analog/.style ={solid, thin},
+  seg/digital/.style={dash pattern=on 3pt off 2pt, thin},
+  seg/control/.style={densely dotted, thin},
+  hw/.style={},                                    % confine hardware: bordo pieno
+  sw/.style={every path/.append style={dashed}},   % confine software: bordo tratteggiato
+}
+
 % --- vocabolario astratto (identità + ancore) ---
 \newcommand{\seandeclaresymbol}[2]{%
   \expandafter\gdef\csname sean@anchors@#1\endcsname{#2}%

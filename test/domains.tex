@@ -1,0 +1,12 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\begin{document}
+\begin{tikzpicture}
+  \draw[seg/analog]  (0,0) -- (2,0);
+  \draw[seg/digital] (0,-1) -- (2,-1);
+  \draw[seg/control] (0,-2) -- (2,-2);
+  \begin{scope}[hw]\draw (0,-3) rectangle (2,-2.5);\end{scope}
+  \begin{scope}[sw]\draw (0,-4) rectangle (2,-3.5);\end{scope}
+\end{tikzpicture}
+\end{document}
