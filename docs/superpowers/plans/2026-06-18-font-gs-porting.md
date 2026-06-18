@@ -416,3 +416,134 @@ git commit -m "test(gs): ridisegno del channel strip del timpano in sintassi sea
 Deduplica `gmic`/`lspk`/`hpf` GS vs WB; identità di firma `emind`/`pedal`/`hsf`;
 integrazione di `gs` nel catalogo `lib/catalog.tex`; migrazione del test WB nella
 sua stanza; promozione di `fonts/gs` a submodule.
+
+---
+
+# Revisione post-render (2026-06-18) — Task 5 e 6
+
+## Task 5: Spessore connessioni al peso GS nel motore + rigenerazione ref + issue WB
+
+**Files:**
+- Modify: `lib/substrate.tex` (stili `seg/analog`, `seg/digital`, `seg/control`: togliere `very thin`)
+- Modify: `test/ref/*.png` e `fonts/gs/ref/*.png` (rigenerati via `make ref`)
+- Create: `TODO.md` (traccia l'omologazione WB)
+
+**Interfaces:**
+- Consumes: la struttura di test/ref di Task 2-4.
+- Produces: connessioni `seg/*` al peso di default (combaciano coi cavi dei glifi GS); baseline di regressione aggiornate; voce TODO per l'omologazione WB.
+
+- [ ] **Step 1: Portare gli stili di connessione al peso default (GS)**
+
+In `lib/substrate.tex`, sostituire il blocco stili di dominio:
+
+```latex
+\tikzset{
+  seg/analog/.style ={solid},
+  seg/digital/.style={dash pattern=on 3pt off 2pt},
+  seg/control/.style={densely dotted},
+  hw/.style={},                                    % confine hardware: bordo pieno
+  sw/.style={every path/.append style={dashed}},   % confine software: bordo tratteggiato
+}
+```
+
+(Rimosso `very thin` dai tre `seg/*`; il peso default 0.4pt combacia col tratto dei glifi GS. Gli stili `hw`/`sw` restano invariati.)
+
+- [ ] **Step 2: Verificare che la compilazione non rompa**
+
+Run: `make test`
+Expected: `ALL TEX OK` (lo spessore non cambia la compilazione, solo il rendering).
+
+- [ ] **Step 3: Mostrare che la regressione registra il cambiamento (fail atteso)**
+
+Run: `make regress`
+Expected: `REGRESS FAIL` con `DIFF` sui ref che disegnano connessioni (`bridge`, `domains`, `font-wb`, `override`, `place`, `rotate`, `font-gs`). È il segnale che il cambiamento ha effetto.
+
+- [ ] **Step 4: Rigenerare le baseline**
+
+Run: `make ref`
+Expected: tutti i ref rigenerati (`  ref <nome>` per ciascuno).
+
+- [ ] **Step 5: Confermare regressione verde**
+
+Run: `make regress`
+Expected: `REGRESS OK`.
+
+- [ ] **Step 6: Creare `TODO.md` con la issue di omologazione WB**
+
+Create `TODO.md`:
+
+```markdown
+# TODO — sean
+
+## Omologazione WB (post cambio spessore connessioni)
+
+- [ ] Omologare il font WB al nuovo peso delle connessioni `seg/*` (default). #sean #avanza #disc
+  Le connessioni del motore ora sono a peso default (per combaciare coi glifi GS);
+  i glifi WB sono `very thin`, quindi nei diagrammi WB i lacci risultano più spessi
+  dei glifi. Decidere l'assetto finale: (a) glifi WB a peso default, (b) modello di
+  spessore di connessione **per-font** (ogni font dichiara il proprio peso), (c) altro.
+  Aprire issue GitLab quando il repo avrà un remote (`glab` presente, remote assente).
+```
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add lib/substrate.tex test/ref/ fonts/gs/ref/ TODO.md
+git commit -m "feat(motore): connessioni seg/* al peso GS (default) + TODO omologazione WB"
+```
+
+---
+
+## Task 6: Diagramma timpano completo — 4 canali + routing
+
+**Files:**
+- Modify: `fonts/gs/test/timpano.tex` (da un canale a diagramma completo)
+- Modify: `fonts/gs/ref/timpano.png` (rigenerato via `make ref`)
+
+**Interfaces:**
+- Consumes: font `gs` (8 glifi + ancore); `seg/analog` (ora a peso GS); WB `connopen`/`connclosed` per i dot di somma (via fallback parent, o `circ`/`ocirc` di circuitikz); circuitikz `jump crossing` e `cute inductor`.
+- Produces: riproduzione fedele in sintassi sean del channel strip del timpano.
+
+**Riferimento da tradurre:** `/Users/giuseppe/Documents/gitlab/gs/gs-graphics/tempo/audio-chain/tempo-channel-strip-eng.tex` (originale, macro posizionali). Mantenere la topologia: 4 canali LFU/RFD/RBU/LBD, ciascuno `gmic → preamp → switch → hpf → invert → lsf → comp`, poi gain di canale (AVP/CVP), pan al bus, altoparlante per canale; bus di somma con dot pieni/vuoti; crossing per RFD/RBU; pedale master MVP (box con due `preamp`); bus-compressor (due `comp`); induttori ABBOTT/COSTELLO (`cute inductor`).
+
+- [ ] **Step 1: Riscrivere `fonts/gs/test/timpano.tex` come diagramma completo**
+
+Leggere l'originale e tradurlo in sintassi sean. Struttura suggerita: un
+`\newcommand{\gschannel}[3]{...}` (prefisso pic, riga y, sigla) che posa la catena
+con `\pic (#1mic) ... {sean symbol=gmic}` ecc. e collega con `\draw[seg/analog]
+(#1x-out) -- (#1y-in)`, invocato 4 volte (mirror di `\channel` nell'originale).
+Routing a livello di diagramma:
+- dot di somma: `\pic (d) at (...) {sean symbol=connclosed}` / `connopen` (ricadono su WB via parent), oppure `\node[circ]`/`\node[ocirc]` di circuitikz.
+- crossing: `\node[jump crossing, rotate=270] (...) {}`.
+- induttori: `\draw (...) to[cute inductor, ...] ++(0,0);` con label ABBOTT/COSTELLO.
+- pedale MVP / bus-comp: box `\draw[thick,fill=white] ... rectangle ...` con dentro `\pic ... {sean symbol=preamp}` / `{sean symbol=comp}` in `\begin{scope}[scale=...]`.
+Le sigle (LFU/RFD/RBU/LBD/AVP/CVP/MVP/ABBOTT/COSTELLO) sono `\node` a livello di diagramma.
+
+Il documento conserva il preambolo già presente (`\documentclass[tikz]{standalone}`,
+`\usepackage{circuitikz}`, `\usetikzlibrary{sean}`, `\input{fonts/gs/font-gs.tex}`,
+`\seanusefont{gs}`).
+
+- [ ] **Step 2: Compilare e iterare fino a render pulito**
+
+Run: `make render`
+Expected: `  rendered timpano` (nessun `SKIP`). Se fallisce, leggere
+`fonts/gs/test/timpano.log`: gli errori tipici sono nomi di ancora errati
+(`(Xpre-out)` vs pic name), `jump crossing`/`cute inductor` non noti (verificare
+`\usepackage{circuitikz}`), o coordinate sovrapposte.
+
+- [ ] **Step 3: Verificare compilazione pulita nel glob dei test**
+
+Run: `make test`
+Expected: `== fonts/gs/test/timpano.tex ==` senza `FAIL`; `ALL TEX OK`.
+
+- [ ] **Step 4: Rigenerare il ref**
+
+Run: `make ref`
+Expected: `  ref timpano`; `fonts/gs/ref/timpano.png` aggiornato (diagramma a 4 canali).
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add fonts/gs/test/timpano.tex fonts/gs/ref/timpano.png
+git commit -m "test(gs): diagramma timpano completo (4 canali + routing) in sean"
+```

@@ -168,6 +168,27 @@ da classificazione.
 - Migrazione del test WB nella sua stanza (dipende dalla bonifica del submodule).
 - Promozione di `fonts/gs` a submodule/repo separato.
 
+## Revisione 2026-06-18 (post-render, feedback utente)
+
+Dopo il primo render sono emerse due scelte che ampliano lo scope:
+
+1. **Diagramma timpano completo.** Non più un solo canale: riprodurre i **4 canali**
+   (LFU/RFD/RBU/LBD) + routing (dot di somma sul bus, crossing, pedale master MVP,
+   bus-compressor, induttori ABBOTT/COSTELLO). Gli elementi di routing restano
+   primitive circuitikz/WB a livello di diagramma (dot = `connopen`/`connclosed`
+   o `circ`/`ocirc`; crossing = `jump crossing`; induttori = `cute inductor`);
+   pedale e bus-comp riusano i pic GS (`preamp`, `comp`).
+2. **Spessore delle connessioni allineato al font.** Causa: `seg/*` è `very thin`
+   (tarato su WB), ma i glifi GS hanno tratto **default** → i lacci risultano più
+   sottili dei cavi degli oggetti. Decisione utente: **portare `seg/*` nel motore
+   al peso GS (default, niente `very thin`)** e **aprire una issue per omologare
+   WB** (le connessioni WB diventano temporaneamente più spesse dei glifi `very
+   thin`; l'omologazione decide l'assetto finale — eventuale modello di spessore
+   per-font). Conseguenza: i ref di regressione che disegnano connessioni
+   (`bridge`, `domains`, `font-wb`, `override`, `place`, `rotate`, `font-gs`,
+   `timpano`) cambiano e vanno rigenerati. Issue tracciata in `TODO.md` (manca un
+   remote git: niente GitLab issue per ora).
+
 ## Criteri di successo
 
 1. `fonts/gs/font-gs.tex` compila e definisce font `gs` con `parent=wb`.
