@@ -46,11 +46,15 @@
 % accumula anche il nome posato in \sean@posed (locale al gruppo: usato dal check)
 \def\sean@posed{}
 \newcommand{\seananchor}[2]{\coordinate (-#1) at #2;\edef\sean@posed{\sean@posed,#1}}
-% --- pic che risolve ed esegue il glifo del font attivo ---
+% --- override del font per-segno (vuoto = usa il font attivo); locale allo scope del pic ---
+\def\sean@startfont{}
+\tikzset{sean font/.code={\def\sean@startfont{#1}}}
+% --- pic che risolve ed esegue il glifo (font attivo, o override 'sean font') ---
 \tikzset{
   sean symbol/.pic={%
     \seanifsymbol{#1}{}{\PackageError{sean}{identità '#1' non dichiarata (\string\seandeclaresymbol)}{}}%
-    \seanresolve{\sean@active}{#1}%
+    \ifx\sean@startfont\empty\let\sean@from\sean@active\else\let\sean@from\sean@startfont\fi
+    \seanresolve{\sean@from}{#1}%
     \ifx\sean@resolved\empty
       \seanmissing{#1}%
     \else

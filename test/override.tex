@@ -1,0 +1,15 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\seandeclaresymbol{gmic}{out}
+\seanfont{wb}{}
+\seanfont{gs}{parent=wb}
+\seanglyph{wb}{gmic}{\draw (0,0) circle (0.4\seanunit); \seananchor{out}{(0,-0.4\seanunit)} \node[font=\tiny] at (0,0.6){WB};}
+\seanglyph{gs}{gmic}{\draw (-0.4,-0.4) rectangle (0.4,0.4); \seananchor{out}{(0,-0.4\seanunit)} \node[font=\tiny] at (0,0.6){GS};}
+\seanusefont{gs}
+\begin{document}
+\begin{tikzpicture}
+  \pic (a) at (0,0) {sean symbol=gmic};               % font attivo gs
+  \pic[sean font=wb] (b) at (2,0) {sean symbol=gmic};  % override -> wb
+\end{tikzpicture}
+\end{document}
