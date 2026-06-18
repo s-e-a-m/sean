@@ -17,7 +17,7 @@
 \newcommand{\gschannel}[3]{%
   % trasduttore di ingresso
   \pic[rotate=90] (#1mic) at (0,{#2+1.2}) {sean symbol=gmic};
-  \node[font=\footnotesize, anchor=south] at (0,{#2+2}) {#3};
+  \node[font=\footnotesize, anchor=south] at (0,{#2+1.85}) {#3};
   % catena
   \pic (#1pre) at (2,{#2})   {sean symbol=preamp};
   \pic (#1sw)  at (4,{#2})   {sean symbol=switch};
@@ -55,7 +55,7 @@
 \draw[fill] (17,0) circle (2pt);
 % loudspeaker LFU
 \pic[rotate=-90] (lfuspk) at (20,-1.2) {sean symbol=lspk};
-\node[font=\footnotesize, anchor=north] at (20,-2) {LFU};
+\node[font=\footnotesize, anchor=north] at (20,-1.85) {LFU};
 \draw[seg/analog] (17,0) -- (19,0) -- (20,0);
 
 % --- RFD (y=-2) -------------------------------------------------
@@ -64,14 +64,12 @@
 \pic (rfdcvp) at (15,-2) {sean symbol=preamp};
 \node[font=\footnotesize, anchor=south] at (15,-1.1) {CVP};
 \draw[seg/analog] (rfdcmp-out) -- (rfdcvp-in);
-% connessione al bus R (x=18) tramite crossing RFD
-\draw[dashed] (15.75,-2) -- (16.25,-2);
+% connessione al bus R (x=18)
 \draw[seg/analog] (rfdcvp-out) -- (18,-2);
-\node at (15.75,-2) [jump crossing, rotate=0] (rfdcrossA){};
 \draw[fill] (18,-2) circle (2pt);
 % loudspeaker RFD
 \pic[rotate=-90] (rfdspk) at (20,-3.2) {sean symbol=lspk};
-\node[font=\footnotesize, anchor=north] at (20,-4) {RFD};
+\node[font=\footnotesize, anchor=north] at (20,-3.85) {RFD};
 \draw[seg/analog] (18,-2) -- (19,-2) -- (20,-2);
 
 % --- RBU (y=-4) -------------------------------------------------
@@ -84,7 +82,7 @@
 \draw[fill] (18,-4) circle (2pt);
 % loudspeaker RBU
 \pic[rotate=-90] (rbuspk) at (20,-5.2) {sean symbol=lspk};
-\node[font=\footnotesize, anchor=north] at (20,-6) {RBU};
+\node[font=\footnotesize, anchor=north] at (20,-5.85) {RBU};
 \draw[seg/analog] (18,-4) -- (19,-4) -- (20,-4);
 
 % --- LBD (y=-6) -------------------------------------------------
@@ -97,7 +95,7 @@
 \draw[fill] (17,-6) circle (2pt);
 % loudspeaker LBD
 \pic[rotate=-90] (lbdspk) at (20,-7.2) {sean symbol=lspk};
-\node[font=\footnotesize, anchor=north] at (20,-8) {LBD};
+\node[font=\footnotesize, anchor=north] at (20,-7.85) {LBD};
 \draw[seg/analog] (17,-6) -- (19,-6) -- (20,-6);
 
 % ================================================================
