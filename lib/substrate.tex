@@ -11,7 +11,11 @@
 }
 
 % --- vocabolario astratto (identità + ancore) ---
+\def\sean@allsymbols{}
 \newcommand{\seandeclaresymbol}[2]{%
+  \ifcsname sean@sym@#1\endcsname\else
+    \edef\sean@allsymbols{\ifx\sean@allsymbols\empty\else\sean@allsymbols,\fi#1}%
+  \fi
   \expandafter\gdef\csname sean@anchors@#1\endcsname{#2}%
   \expandafter\gdef\csname sean@sym@#1\endcsname{1}%
 }

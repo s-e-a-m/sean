@@ -1,0 +1,22 @@
+% Catalogo auto-generato dal registro (identità × font caricati).
+% Vista confronto: righe = identità, colonne = font.
+% Nota: si usa il contatore nativo di \foreach (count=... from 0), perché un
+% \pgfmathsetmacro dentro \foreach è locale al gruppo dell'iterazione e si azzera.
+\newcommand{\seancatalogcompare}[1]{%
+  \begin{tikzpicture}[every node/.append style={font=\footnotesize}]
+    \foreach \f [count=\c from 0] in {#1}{%
+      \node at ({\c*3},1.5) {\textbf{\f}};}%
+    \foreach \id [count=\r from 0] in \sean@allsymbols {%
+      \node[anchor=east] at (-1.2,{-\r*3}) {\id};%
+      \foreach \f [count=\c from 0] in {#1}{%
+        \pic[sean font=\f] at ({\c*3},{-\r*3}) {sean symbol=\id};}}%
+  \end{tikzpicture}}
+% Vista per-font: un segno per riga + provenienza in testa.
+\newcommand{\seancatalogfont}[1]{%
+  \seanusefont{#1}%
+  \begin{tikzpicture}[every node/.append style={font=\footnotesize}]
+    \node[anchor=west] at (-1.2,2) {\textbf{#1} — \seanfontauthor{#1}, \seanfontyear{#1}};
+    \foreach \id [count=\r from 0] in \sean@allsymbols {%
+      \pic at (0,{-\r*3}) {sean symbol=\id};%
+      \node[anchor=west] at (2,{-\r*3}) {\id};}%
+  \end{tikzpicture}}

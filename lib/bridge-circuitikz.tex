@@ -6,18 +6,21 @@
 % delega: amplificatore generico -> triangolo amp di circuitikz
 \seanglyph{circuitikz}{ampgen}{%
   \draw (-1,0) to[amp] (1,0); \seananchor{in}{(-1,0)} \seananchor{out}{(1,0)}}
-% phantom +48V (da src/48v.tex, sintassi circuitikz)
+% phantom +48V (da src/48v.tex). Normalizzato: il circuito ha coordinate fino a 12
+% unità, quindi lo scaliamo a misura di cella (edizione critica: fedele ma sul substrato).
 \seanglyph{circuitikz}{phantom48}{%
-  \draw (0,0) circle (1);
-  \fill[black] (0.2,0.6) circle (0.1) node[right]{2};
-  \fill[black] (0.2,-0.6) circle (0.1) node[right]{1};
-  \fill[black] (-0.6,0) circle (0.1) node[right]{3};
-  \draw (0.2,0.6) to (0.2,3) to (3,3) to[C] (9,3) to (9,1) to (12,1);
-  \fill[black] (3,3) circle (0.1);
-  \draw (3,3) to[R] (3,0) to[R] (3,-3);
-  \draw (3,0) to[V<=48] (7,0) to (7,-3) node[ground]{};
-  \fill[black] (3,0) circle (0.1);
-  \draw (-0.6,0) to (-0.6,-3) to (3,-3) to[C] (9,-3) to (9,-1) to (12,-1);
-  \fill[black] (3,-3) circle (0.1);
-  \draw (0.2,-0.6) to (0.2,-3) node[ground]{};
-  \seananchor{out}{(12,1)}}
+  \begin{scope}[scale=0.12,transform shape]
+    \draw (0,0) circle (1);
+    \fill[black] (0.2,0.6) circle (0.1) node[right]{2};
+    \fill[black] (0.2,-0.6) circle (0.1) node[right]{1};
+    \fill[black] (-0.6,0) circle (0.1) node[right]{3};
+    \draw (0.2,0.6) to (0.2,3) to (3,3) to[C] (9,3) to (9,1) to (12,1);
+    \fill[black] (3,3) circle (0.1);
+    \draw (3,3) to[R] (3,0) to[R] (3,-3);
+    \draw (3,0) to[V<=48] (7,0) to (7,-3) node[ground]{};
+    \fill[black] (3,0) circle (0.1);
+    \draw (-0.6,0) to (-0.6,-3) to (3,-3) to[C] (9,-3) to (9,-1) to (12,-1);
+    \fill[black] (3,-3) circle (0.1);
+    \draw (0.2,-0.6) to (0.2,-3) node[ground]{};
+  \end{scope}
+  \seananchor{out}{(1.44,0.12)}}
