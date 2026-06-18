@@ -1,0 +1,16 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\seandeclaresymbol{gmic}{out}
+\seandeclaresymbol{amp}{in,out}
+\seanfont{wb}{}
+\seanglyph{wb}{gmic}{\draw (0,0) circle (0.4\seanunit); \seananchor{out}{(0,-0.4\seanunit)}}
+\seanglyph{wb}{amp}{\draw (-0.4,-0.4) rectangle (0.4,0.4); \seananchor{in}{(-0.4,0)} \seananchor{out}{(0.4,0)}}
+\seanusefont{wb}
+\begin{document}
+\begin{tikzpicture}
+  \pic (m1) at (0,0) {sean symbol=gmic};
+  \pic (a1) at (2,0) {sean symbol=amp};
+  \draw (m1-out) -- (a1-in);
+\end{tikzpicture}
+\end{document}

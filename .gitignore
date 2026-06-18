@@ -5,3 +5,6 @@
 *.xdv
 *.synctex.gz
 build/
+*.pdf
+*.png
+!test/ref/*.png
