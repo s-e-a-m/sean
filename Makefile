@@ -3,7 +3,7 @@ TEXINPUTS_ := $(CURDIR):
 RENDER = pdftoppm -png -r 120
 
 # Sorgenti che producono output visivo significativo (gli altri test sono solo asserzioni).
-RENDER_SRCS = test/place.tex test/override.tex test/domains.tex test/font-wb.tex test/rotate.tex test/bridge.tex docs/catalog.tex fonts/gs/test/font-gs.tex
+RENDER_SRCS = test/place.tex test/override.tex test/domains.tex test/font-wb.tex test/rotate.tex test/bridge.tex docs/catalog.tex fonts/gs/test/font-gs.tex fonts/gs/test/timpano.tex
 
 .PHONY: test clean render ref regress
 

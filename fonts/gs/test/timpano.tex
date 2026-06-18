@@ -1,0 +1,29 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usepackage{circuitikz}
+\usetikzlibrary{sean}
+\input{fonts/gs/font-gs.tex}
+\seanusefont{gs}
+\begin{document}
+\begin{tikzpicture}
+  % --- un canale completo (prefisso pic = c1, riga y = 0) ---
+  \pic[rotate=90] (c1mic) at (0,1.2)  {sean symbol=gmic};
+  \node[font=\footnotesize, anchor=south] at (0,2) {LFU};
+  \pic (c1pre) at (2,0)  {sean symbol=preamp};
+  \pic (c1sw)  at (4,0)  {sean symbol=switch};
+  \pic (c1hpf) at (6.5,0){sean symbol=hpf};
+  \pic (c1inv) at (8.5,0){sean symbol=invert};
+  \pic (c1lsf) at (10.5,0){sean symbol=lsf};
+  \pic (c1cmp) at (12.5,0){sean symbol=comp};
+  \pic[rotate=-90] (c1spk) at (15,-1.2) {sean symbol=lspk};
+  \node[font=\footnotesize, anchor=north] at (15,-2) {LFU};
+  % connessioni (very thin come i glifi; verso a carico dell'autore)
+  \draw[seg/analog] (c1mic-out) -- (c1pre-in);
+  \draw[seg/analog] (c1pre-out) -- (c1sw-in);
+  \draw[seg/analog] (c1sw-out)  -- (c1hpf-in);
+  \draw[seg/analog] (c1hpf-out) -- (c1inv-in);
+  \draw[seg/analog] (c1inv-out) -- (c1lsf-in);
+  \draw[seg/analog] (c1lsf-out) -- (c1cmp-in);
+  \draw[seg/analog] (c1cmp-out) -- (c1spk-in);
+\end{tikzpicture}
+\end{document}
