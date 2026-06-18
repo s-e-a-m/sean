@@ -1,5 +1,15 @@
-% helper di asserzione per i test sean (riempiti nei task seguenti)
+% helper di asserzione per i test sean
 % \seanassertsymbol{<id>} ; \seanassertglyph{<font>}{<id>} ; \seanassertresolves{<font>}{<id>}{<expected>}
+% Avvolto in \makeatletter perché gli helper referenziano macro interne \sean@...
+\makeatletter
 \newcommand{\seanassertsymbol}[1]{%
   \seanifsymbol{#1}{\message{^^JSEAN-OK: symbol #1^^J}}%
     {\PackageError{sean}{assert: simbolo '#1' non dichiarato}{}}}
+\newcommand{\seanassertglyph}[2]{%
+  \ifcsname sean@glyph@#1@#2\endcsname\message{^^JSEAN-OK: glyph #1/#2^^J}%
+  \else\PackageError{sean}{assert: glifo #1/#2 mancante}{}\fi}
+\newcommand{\seanassertresolves}[3]{%
+  \seanresolve{#1}{#2}\edef\sean@exp{#3}%
+  \ifx\sean@resolved\sean@exp\message{^^JSEAN-OK: #2 via #1 -> #3^^J}%
+  \else\PackageError{sean}{assert: #2 via #1 risolve in '\sean@resolved' invece di #3}{}\fi}
+\makeatother

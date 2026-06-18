@@ -8,3 +8,27 @@
 }
 \newcommand{\seanifsymbol}[3]{\ifcsname sean@sym@#1\endcsname#2\else#3\fi}
 \newcommand{\seansymbolanchors}[1]{\csname sean@anchors@#1\endcsname}
+
+% --- glifi ---
+\newcommand{\seanglyph}[3]{\expandafter\gdef\csname sean@glyph@#1@#2\endcsname{#3}}
+% --- font + parent (fallback) ---
+\pgfkeys{/sean/font/parent/.initial={}}
+\newcommand{\seanfont}[2]{%
+  \pgfkeys{/sean/font/.cd,parent={},#2}%
+  \expandafter\xdef\csname sean@parent@#1\endcsname{\pgfkeysvalueof{/sean/font/parent}}%
+}
+\newcommand{\seanparentof}[1]{\ifcsname sean@parent@#1\endcsname\csname sean@parent@#1\endcsname\fi}
+% --- font attivo ---
+\def\sean@active{wb}
+\newcommand{\seanusefont}[1]{\def\sean@active{#1}}
+% --- risoluzione con fallback ---
+\newcommand{\seanresolve}[2]{\def\sean@resolved{}\edef\sean@cur{#1}\sean@resolveloop{#2}}
+\newcommand{\sean@resolveloop}[1]{%
+  \ifx\sean@cur\empty\else
+    \ifcsname sean@glyph@\sean@cur @#1\endcsname
+      \let\sean@resolved\sean@cur
+    \else
+      \edef\sean@cur{\seanparentof{\sean@cur}}%
+      \sean@resolveloop{#1}%
+    \fi
+  \fi}

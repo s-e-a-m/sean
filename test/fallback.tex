@@ -1,0 +1,17 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\input{seantest.tex}
+\seandeclaresymbol{gmic}{out}
+\seandeclaresymbol{amp}{in,out}
+\seanfont{wb}{}
+\seanfont{gs}{parent=wb}
+\seanglyph{wb}{gmic}{\draw (0,0) circle (0.4\seanunit);}
+\seanglyph{wb}{amp}{\draw (-0.4,-0.4) rectangle (0.4,0.4);}
+\seanglyph{gs}{amp}{\draw (0,0) circle (0.4\seanunit);} % gs ridisegna solo amp
+\begin{document}
+\seanassertglyph{wb}{gmic}
+\seanassertresolves{gs}{amp}{gs}    % gs ha amp
+\seanassertresolves{gs}{gmic}{wb}   % gs non ha gmic -> fallback wb
+\begin{tikzpicture}\end{tikzpicture}
+\end{document}
