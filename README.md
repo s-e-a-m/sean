@@ -26,9 +26,11 @@ lib/
   bridge-circuitikz.tex      circuitikz registrato come font
 fonts/
   wb/                        submodule → wb-tdme-simboli (font WB, glifi puri)
-doc/
+docs/
   catalog.tex                documento-catalogo
+  superpowers/               spec e piani (brainstorming/writing-plans)
 test/                        test (compilazione + asserzioni SEAN-OK) + ref/ (regressione visiva)
+logs/                        log di sessione (uno per data)
 Makefile                     test / render / ref / regress
 ```
 
