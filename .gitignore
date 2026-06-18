@@ -9,3 +9,4 @@ build/
 *.pdf
 *.png
 !test/ref/*.png
+!fonts/*/ref/*.png

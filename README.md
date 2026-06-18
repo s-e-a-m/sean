@@ -26,6 +26,7 @@ lib/
   bridge-circuitikz.tex      circuitikz registrato come font
 fonts/
   wb/                        submodule → wb-tdme-simboli (font WB, glifi puri)
+  gs/                        font GS (mano di Giuseppe Silvi): font-gs.tex + test/ + ref/
 docs/
   catalog.tex                documento-catalogo
   superpowers/               spec e piani (brainstorming/writing-plans)

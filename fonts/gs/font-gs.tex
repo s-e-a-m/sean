@@ -1,0 +1,80 @@
+% Font GS — Giuseppe Silvi. La "mano" del diagramma del channel strip del timpano.
+% Glifi centrati sull'origine, ancore in/out. Richiede circuitikz per hpf.
+\seanfont{gs}{parent=wb}
+\seanfontmeta{gs}{author=Giuseppe Silvi, year=2025, note=mano del diagramma del timpano}
+
+% identità nuove (non nel canone WB) — dichiarate inline come nel bridge
+\seandeclaresymbol{preamp}{in,out}
+\seandeclaresymbol{invert}{in,out}
+\seandeclaresymbol{lsf}{in,out}
+\seandeclaresymbol{comp}{in,out}
+\seandeclaresymbol{switch}{in,out}
+
+% --- trasduttori ---
+\seanglyph{gs}{gmic}{%
+  \draw (0,0) circle (0.5\seanunit);
+  \draw[very thick] (-0.5,0.5) -- (0.5,0.5);
+  \draw (0,-0.5) -- (0,-1);
+  \seananchor{out}{(0,-1)}}
+
+\seanglyph{gs}{lspk}{%
+  \draw (-90:0.5) -- (-210:0.5) -- (-330:0.5) -- cycle;
+  \draw[very thick] (-0.25,-0.5) -- (0.25,-0.5);
+  \draw[very thick] (-0.25,-0.6) -- (0.25,-0.6);
+  \draw (0,-0.5) -- (0,-1);
+  \seananchor{in}{(0,-1)}}
+
+% --- filtro passa-alto: delega a circuitikz highpass2 (centrato) ---
+\seanglyph{gs}{hpf}{%
+  \draw (-0.75,0) to[highpass2] (0.75,0);
+  \seananchor{in}{(-0.75,0)}\seananchor{out}{(0.75,0)}}
+
+% --- preamp (gain): box + triangolo + freccia di guadagno ---
+\seanglyph{gs}{preamp}{%
+  \draw (-0.75,0) -- (0.75,0);
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \begin{scope}[shift={(-0.05,0)}]
+    \draw[->,very thin,>={Latex[length=1mm, width=1mm]}] (-0.3,-0.3) -- (0.3,0.3);
+    \draw[fill=white] (0:0.3) -- (120:0.3) -- (240:0.3) -- cycle;
+  \end{scope}
+  \seananchor{in}{(-0.75,0)}\seananchor{out}{(0.75,0)}}
+
+% --- inversione di polarità: box + triangolo + pallino (Ø) ---
+\seanglyph{gs}{invert}{%
+  \draw (-0.75,0) -- (0.75,0);
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \begin{scope}[shift={(-0.1,0)}]
+    \draw[fill=white] (0:0.3) -- (120:0.3) -- (240:0.3) -- cycle;
+    \draw[fill=white] (0.325,0) circle (2pt);
+  \end{scope}
+  \seananchor{in}{(-0.75,0)}\seananchor{out}{(0.75,0)}}
+
+% --- low-shelf: box + curva di shelving ---
+\seanglyph{gs}{lsf}{%
+  \draw (-0.75,0) -- (0.75,0);
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \draw[dotted,very thin] (-0.5,0) -- (0.5,0);
+  \draw (-0.5,0.3) -- (-0.25,0.3) to[out=0,in=180] (0.25,0) -- (0.5,0);
+  \seananchor{in}{(-0.75,0)}\seananchor{out}{(0.75,0)}}
+
+% --- compressore: box + diagonale punteggiata + curva di transfer (knee) ---
+\seanglyph{gs}{comp}{%
+  \draw (-0.75,0) -- (0.75,0);
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \draw[dotted,very thin] (-0.5,-0.5) -- (0.5,0.5);
+  \begin{scope}[shift={(-0.5,-0.5)}]
+    \draw (0,0) -- (0.6,0.6) to[out=45,in=202] (0.75,0.7) -- (1,0.8);
+  \end{scope}
+  \seananchor{in}{(-0.75,0)}\seananchor{out}{(0.75,0)}}
+
+% --- insert commutabile (solo meccanismo): in a sx, out a dx ---
+\seanglyph{gs}{switch}{%
+  \draw (-1.75,0) -- (-1.25,0) -- (-0.75,0.5);
+  \draw[dotted] (-1.25,0) -- (-0.75,-0.5);
+  \draw[->] (-1.0,0.25) arc (45:-40:0.375);
+  \draw[fill] (-1.25,0) circle (2pt);
+  \draw[fill] (-0.75,0.5) circle (2pt);
+  \draw (-0.75,0.5) -- (0.75,0.5) -- (1.25,0) -- (1.75,0);
+  \draw (0.75,-0.5) -- (1.25,0);
+  \draw[fill=white] (-0.75,-0.5) circle (2pt);
+  \seananchor{in}{(-1.75,0)}\seananchor{out}{(1.75,0)}}

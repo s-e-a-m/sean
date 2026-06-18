@@ -1,0 +1,29 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usepackage{circuitikz}      % serve a gs/hpf (highpass2)
+\usetikzlibrary{sean}
+\input{test/seantest.tex}
+\input{fonts/gs/font-gs.tex}
+\seanusefont{gs}
+\begin{document}
+% 1) esistenza degli 8 glifi (errore di compilazione se manca)
+\seanassertglyph{gs}{gmic}\seanassertglyph{gs}{preamp}\seanassertglyph{gs}{switch}%
+\seanassertglyph{gs}{hpf}\seanassertglyph{gs}{invert}\seanassertglyph{gs}{lsf}%
+\seanassertglyph{gs}{comp}\seanassertglyph{gs}{lspk}%
+% 2) catena reale: usare le ancore prova che -in/-out sono posate
+\begin{tikzpicture}
+  \pic[rotate=90]  (m) at (0,0)  {sean symbol=gmic};   % uscita verso destra
+  \pic             (g) at (2,0)  {sean symbol=preamp};
+  \pic             (h) at (4,0)  {sean symbol=hpf};
+  \pic             (i) at (6,0)  {sean symbol=invert};
+  \pic             (l) at (8,0)  {sean symbol=lsf};
+  \pic             (c) at (10,0) {sean symbol=comp};
+  \pic[rotate=-90] (s) at (12,0) {sean symbol=lspk};   % ingresso da sinistra
+  \draw[seg/analog] (m-out) -- (g-in);
+  \draw[seg/analog] (g-out) -- (h-in);
+  \draw[seg/analog] (h-out) -- (i-in);
+  \draw[seg/analog] (i-out) -- (l-in);
+  \draw[seg/analog] (l-out) -- (c-in);
+  \draw[seg/analog] (c-out) -- (s-in);
+\end{tikzpicture}
+\end{document}
