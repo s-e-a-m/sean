@@ -1,0 +1,11 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\seandeclaresymbol{lspk}{in}     % dichiarata ma NON disegnata da nessun font
+\seanfont{wb}{}
+\seanusefont{wb}
+\begin{document}
+\begin{tikzpicture}
+  \pic (s1) at (0,0) {sean symbol=lspk};  % deve dare segnaposto + warning
+\end{tikzpicture}
+\end{document}

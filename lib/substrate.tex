@@ -38,11 +38,15 @@
 % --- pic che risolve ed esegue il glifo del font attivo ---
 \tikzset{
   sean symbol/.pic={%
+    \seanifsymbol{#1}{}{\PackageError{sean}{identità '#1' non dichiarata (\string\seandeclaresymbol)}{}}%
     \seanresolve{\sean@active}{#1}%
     \ifx\sean@resolved\empty
       \seanmissing{#1}%
     \else
       \csname sean@glyph@\sean@resolved @#1\endcsname
     \fi}}
-% segnaposto provvisorio (sovrascritto nel Task 4)
-\newcommand{\seanmissing}[1]{\draw[dashed] (-0.4,-0.4) rectangle (0.4,0.4);}
+% segnaposto per glifo mancante: box tratteggiato etichettato + warning
+\newcommand{\seanmissing}[1]{%
+  \draw[dashed] (-0.5\seanunit,-0.5\seanunit) rectangle (0.5\seanunit,0.5\seanunit);
+  \node[font=\tiny] at (0,0) {#1};
+  \PackageWarning{sean}{nessun glifo per '#1' nel font attivo o nei suoi genitori}}
