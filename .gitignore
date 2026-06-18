@@ -5,6 +5,7 @@
 *.xdv
 *.synctex.gz
 build/
+.DS_Store
 *.pdf
 *.png
 !test/ref/*.png
