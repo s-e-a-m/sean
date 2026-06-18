@@ -1,0 +1,7 @@
+% Stile di presentazione — omaggio al catalogo WB 1976: font Datalegreya.
+% NON è caricato dalla libreria (una libreria non deve imporre il font del documento):
+% si fa \input nel preambolo dei soli documenti che vogliono l'aspetto WB (es. il catalogo).
+% Richiede XeLaTeX/LuaLaTeX e il font Datalegreya installato.
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\setmainfont{Datalegreya}
