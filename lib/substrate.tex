@@ -1,2 +1,10 @@
 % L0 — substrato (apparato critico). Riempito dai task successivi.
 \newlength{\seanunit}\setlength{\seanunit}{1cm}
+
+% --- vocabolario astratto (identità + ancore) ---
+\newcommand{\seandeclaresymbol}[2]{%
+  \expandafter\gdef\csname sean@anchors@#1\endcsname{#2}%
+  \expandafter\gdef\csname sean@sym@#1\endcsname{1}%
+}
+\newcommand{\seanifsymbol}[3]{\ifcsname sean@sym@#1\endcsname#2\else#3\fi}
+\newcommand{\seansymbolanchors}[1]{\csname sean@anchors@#1\endcsname}

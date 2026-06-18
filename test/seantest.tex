@@ -1,2 +1,5 @@
 % helper di asserzione per i test sean (riempiti nei task seguenti)
 % \seanassertsymbol{<id>} ; \seanassertglyph{<font>}{<id>} ; \seanassertresolves{<font>}{<id>}{<expected>}
+\newcommand{\seanassertsymbol}[1]{%
+  \seanifsymbol{#1}{\message{^^JSEAN-OK: symbol #1^^J}}%
+    {\PackageError{sean}{assert: simbolo '#1' non dichiarato}{}}}

@@ -1,0 +1,11 @@
+%!TEX TS-program = xelatex
+\documentclass[tikz]{standalone}
+\usetikzlibrary{sean}
+\input{seantest.tex}
+\seandeclaresymbol{gmic}{out}
+\seandeclaresymbol{amp}{in,out}
+\begin{document}
+\seanassertsymbol{gmic}
+\seanassertsymbol{amp}
+\begin{tikzpicture}\end{tikzpicture}
+\end{document}
