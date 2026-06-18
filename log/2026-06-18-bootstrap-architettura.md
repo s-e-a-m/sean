@@ -66,7 +66,21 @@ render → commit). Verifica finale: `make test` = `ALL TEX OK`, `make regress` 
 - 114313a regressione visiva
 - 4af673b ignora .DS_Store
 
+## Addendum — checkpoint di revisione (stesso giorno)
+Osservazioni utente sui PDF, e relative azioni:
+- **Datalegreya perso nel catalogo**: il font non era portato nell'ombrello → creato `lib/style.tex`
+  (fontspec + Datalegreya), `\input` in `doc/catalog.tex`. La libreria resta font-agnostica.
+- **PDF degeneri** (smoke/vocabulary/vocab-core/fallback/provenance/conformance): tikzpicture
+  vuoto → pagina ~0 → crash di Finder/Quick Look. Aggiunto un nodo minimo: pagine valide.
+- **Frecce nei glifi**: osservazione **ritirata** dall'utente dopo aver riguardato i disegni di
+  Branchi — le frecce sono parte del font, restano. Nessuna modifica ai glifi.
+- **Orientamento/rotazione**: niente rotazione automatica (un oggetto può servire sia verticale
+  sia orizzontale a seconda del routing). Ogni segno ha il suo puntamento naturale; l'utente
+  ruota per-istanza con `\pic[rotate=...]` (le ancore, interne al pic, seguono la rotazione —
+  verificato). Esempio `font-wb` riscritto come catena orizzontale onesta; aggiunto `test/rotate.tex`
+  (coperto da regressione) e nota nel README. Le frecce di flusso le aggiunge l'utente sul collegamento.
+- Riferimenti di regressione riallineati (`make ref`). Commit: 585f38f, 4ab0b99, fb331dd.
+
 ## Prossimi passi
-Checkpoint di revisione visiva umana in corso (sfogliare `doc/catalog.pdf` ecc., eventuali
-ritocchi a mano). Poi, su modello `sean`: trascrizione integrale dei simboli dal libro WB,
-font GS (timpano), diagramma Lazzaro per il CIM, trasferimento a SEAM.
+Su modello `sean`: trascrizione integrale dei simboli dal libro WB, font GS (timpano), diagramma
+Lazzaro per il CIM, trasferimento a SEAM.
