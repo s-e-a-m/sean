@@ -1,9 +1,45 @@
-% vocabolario del canone (identità + ancore). Le ancore riflettono il verso del segnale.
-\seandeclaresymbol{gmic}{out}     % microfono generico
-\seandeclaresymbol{cmic}{out}     % microfono a condensatore
-\seandeclaresymbol{kmic}{out}     % microfono a contatto
-\seandeclaresymbol{rlev}{in,out}  % regolatore di livello
-\seandeclaresymbol{lspk}{in}      % altoparlante
-\seandeclaresymbol{girad}{out}    % giradischi
-\seandeclaresymbol{indliv}{in,out}% indicatore di livello (VU)
-\seandeclaresymbol{ampgen}{in,out}% amplificatore generico
+% Vocabolario del canone WB (Appendice 6). Identità + ancore (verso del segnale).
+% --- sorgenti / segni base ---
+\seandeclaresymbol{ac}{}           % corrente alternata
+\seandeclaresymbol{dc}{}           % corrente continua
+\seandeclaresymbol{connopen}{p}    % connessione aperta
+\seandeclaresymbol{connclosed}{p}  % connessione chiusa
+% --- strumenti di misura ---
+\seandeclaresymbol{freqcount}{in}  % contatore di frequenza
+\seandeclaresymbol{scope}{in}      % oscilloscopio
+\seandeclaresymbol{voltmeter}{in}  % voltometro
+% --- generatori ---
+\seandeclaresymbol{gensin}{out}    % onde sinusoidali
+\seandeclaresymbol{gensq}{out}     % onde quadre
+\seandeclaresymbol{gentri}{out}    % onde triangolari
+\seandeclaresymbol{gensaw}{out}    % onde a dente di sega
+\seandeclaresymbol{genwn}{out}     % rumore bianco
+\seandeclaresymbol{genpulse}{out}  % impulsi
+\seandeclaresymbol{genfunc}{out}   % funzioni (VCG/VCO)
+% --- filtri ---
+\seandeclaresymbol{filter}{in,out} % generico
+\seandeclaresymbol{lpf}{in,out}    % passa-basso
+\seandeclaresymbol{hpf}{in,out}    % passa-alto
+\seandeclaresymbol{bpf}{in,out}    % passa banda
+\seandeclaresymbol{bsf}{in,out}    % soppressore di banda
+% --- modulatori (diamanti) ---
+\seandeclaresymbol{am}{in,out,mod} % d'ampiezza
+\seandeclaresymbol{rm}{in,out,mod} % ad anello
+\seandeclaresymbol{es}{in,out,mod} % formatore d'inviluppo
+\seandeclaresymbol{pm}{in,out,mod} % d'impulsi
+\seandeclaresymbol{fm}{in,out,mod} % di frequenza
+% --- registrazione / lettura ---
+\seandeclaresymbol{tapeplay}{out}  % magnetofono in riproduzione
+\seandeclaresymbol{taperec}{in}    % magnetofono in registrazione
+\seandeclaresymbol{headplay}{out}  % testina di riproduzione
+\seandeclaresymbol{headrec}{in}    % testina di registrazione
+\seandeclaresymbol{headerase}{in}  % testina di cancellazione
+% --- trasduttori / utenza (già fatti) ---
+\seandeclaresymbol{gmic}{out}      % microfono generico
+\seandeclaresymbol{cmic}{out}      % microfono a condensatore
+\seandeclaresymbol{kmic}{out}      % microfono a contatto
+\seandeclaresymbol{girad}{out}     % giradischi
+\seandeclaresymbol{indliv}{in,out} % indicatore di livello (VU)
+\seandeclaresymbol{ampgen}{in,out} % amplificatore generico
+\seandeclaresymbol{rlev}{in,out}   % regolatore di livello
+\seandeclaresymbol{lspk}{in}       % altoparlante

@@ -96,9 +96,13 @@ make ref        # aggiorna i riferimenti (solo se le modifiche visive sono volut
 
 ## Stato
 
-Architettura e convenzioni complete e collaudate. Font WB (8 segni: `gmic cmic kmic rlev lspk girad indliv ampgen`) + font `circuitikz` (`ampgen`, `phantom48`).
+Architettura e convenzioni complete e collaudate. **Font WB: trascrizione integrale dell'Appendice 6 (37 segni)** — sorgenti/segni base, misura, generatori, filtri, modulatori, registrazione/lettura, trasduttori. Font `circuitikz`: `ampgen`, `phantom48`, e i filtri `hpf/lpf/bpf/bsf` (riuso dei bipoli circuitikz).
 
-**Prossimi passi** (cicli successivi): trascrizione integrale dei simboli dal libro WB; font GS (timpano aumentato) e altri contributori; diagramma della catena elettroacustica per il paper CIM; trasferimento a [SEAM](https://github.com/) (Sustained ElectroAcoustic Music) e nome/remote definitivi.
+`connopen`/`connclosed` delegano a circuitikz (`ocirc`/`circ`): un documento che li usa deve caricare `circuitikz`.
+
+**Da verificare con la fonte cartacea** (lettura interpretativa della scansione): i motivi interni dei filtri (`~`/linee per passa-basso/alto/banda/soppressore), la sagoma del CRT in `scope`, le testine (`headplay/rec/erase`), l'eventuale cerchio nel `gensin`.
+
+**Prossimi passi** (cicli successivi): font GS (timpano aumentato — `lsf`, `comp`, `invert`, `hpf` circuitikz) e altri contributori; diagramma della catena elettroacustica per il paper CIM; trasferimento a SEAM (Sustained ElectroAcoustic Music) con nome/remote definitivi e un **manuale circuitikz** (circuitikz è notazione di partitura a pieno titolo — es. i circuiti degli induttori del timpano).
 
 ## Licenza
 

@@ -81,6 +81,20 @@ Osservazioni utente sui PDF, e relative azioni:
   (coperto da regressione) e nota nel README. Le frecce di flusso le aggiunge l'utente sul collegamento.
 - Riferimenti di regressione riallineati (`make ref`). Commit: 585f38f, 4ab0b99, fb331dd.
 
+## Addendum — trascrizione integrale Appendice 6 (stesso giorno)
+- Scansione `resources/WB-TDME-SIMBOLI.pdf` giudicata sufficiente (no nuova foto).
+- Aggiunti i **29 simboli mancanti** → font WB completo a **37** (vocabolario in `lib/vocabulary-core.tex`,
+  glifi in `fonts/wb/font-wb.tex`, ora con helper DRY `\sean@wb{mod,gen,filt}` sotto `\makeatletter`).
+- **Regola di riuso applicata anche a WB**: "se circuitikz ha un simbolo *uguale al cartaceo*, si usa,
+  non si rigenera". Audit: match identici rari (WB è notazione idiosincratica). Riuso effettivo:
+  `connopen`/`connclosed` → `ocirc`/`circ`. Nel **font circuitikz** aggiunti `hpf/lpf/bpf/bsf`
+  (bipoli `highpass2`/`lowpass2`/`bandpass`/`bandstop`) — riuso, non ridisegno.
+- Contemporanei del timpano (`lsf`, `comp`, `invert`, `hpf`-circuitikz) → **font GS**, ciclo dedicato dopo.
+- Nota: nel repo finale (SEAM) andrà un **manuale circuitikz** (per l'utente lo schematico elettrico è partitura).
+- Trappola risolta: `phantom48` (circuitikz) a coordinate assolute grandi → "Dimension too large".
+  Fix: il catalogo rende ogni cella come **mini-tikzpicture dentro un nodo** (circuitikz disegna vicino all'origine).
+- DA VERIFICARE con la fonte: motivi interni dei filtri, CRT di `scope`, testine, cerchio di `gensin`.
+
 ## Prossimi passi
-Su modello `sean`: trascrizione integrale dei simboli dal libro WB, font GS (timpano), diagramma
-Lazzaro per il CIM, trasferimento a SEAM.
+Verifica umana del catalogo dei 37 segni; poi font GS (timpano), diagramma Lazzaro per il CIM,
+trasferimento a SEAM (+ manuale circuitikz).

@@ -6,6 +6,15 @@
 % delega: amplificatore generico -> triangolo amp di circuitikz
 \seanglyph{circuitikz}{ampgen}{%
   \draw (-1,0) to[amp] (1,0); \seananchor{in}{(-1,0)} \seananchor{out}{(1,0)}}
+% filtri: riuso dei bipoli circuitikz (non si ridisegna ciò che esiste già)
+\seanglyph{circuitikz}{hpf}{%
+  \draw (-0.8,0) to[highpass2] (0.8,0); \seananchor{in}{(-0.8,0)} \seananchor{out}{(0.8,0)}}
+\seanglyph{circuitikz}{lpf}{%
+  \draw (-0.8,0) to[lowpass2] (0.8,0); \seananchor{in}{(-0.8,0)} \seananchor{out}{(0.8,0)}}
+\seanglyph{circuitikz}{bpf}{%
+  \draw (-0.8,0) to[bandpass] (0.8,0); \seananchor{in}{(-0.8,0)} \seananchor{out}{(0.8,0)}}
+\seanglyph{circuitikz}{bsf}{%
+  \draw (-0.8,0) to[bandstop] (0.8,0); \seananchor{in}{(-0.8,0)} \seananchor{out}{(0.8,0)}}
 % phantom +48V (da src/48v.tex). Normalizzato: il circuito ha coordinate fino a 12
 % unità, quindi lo scaliamo a misura di cella (edizione critica: fedele ma sul substrato).
 \seanglyph{circuitikz}{phantom48}{%
