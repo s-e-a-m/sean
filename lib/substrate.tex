@@ -34,7 +34,9 @@
   \fi}
 
 % --- binding ancora dentro un glifo (pic): il nome pic viene prepeso da TikZ ---
-\newcommand{\seananchor}[2]{\coordinate (-#1) at #2;}
+% accumula anche il nome posato in \sean@posed (locale al gruppo: usato dal check)
+\def\sean@posed{}
+\newcommand{\seananchor}[2]{\coordinate (-#1) at #2;\edef\sean@posed{\sean@posed,#1}}
 % --- pic che risolve ed esegue il glifo del font attivo ---
 \tikzset{
   sean symbol/.pic={%
@@ -50,3 +52,15 @@
   \draw[dashed] (-0.5\seanunit,-0.5\seanunit) rectangle (0.5\seanunit,0.5\seanunit);
   \node[font=\tiny] at (0,0) {#1};
   \PackageWarning{sean}{nessun glifo per '#1' nel font attivo o nei suoi genitori}}
+
+% --- verifica di conformità: tutte le ancore dichiarate sono posate dal glifo? ---
+\newcommand{\seancheckglyph}[2]{%
+  \begin{scope}[opacity=0]%
+    \def\sean@posed{}%
+    \csname sean@glyph@#1@#2\endcsname
+    \edef\sean@list{\seansymbolanchors{#2}}%
+    \foreach \a in \sean@list {%
+      \in@{,\a,}{,\sean@posed,}%
+      \ifin@\else\PackageWarning{sean}{glifo #1/#2: ancora '\a' dichiarata ma non posata}\fi}%
+  \end{scope}%
+  \message{^^JSEAN-OK: checked #1/#2^^J}}
