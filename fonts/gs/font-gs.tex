@@ -9,6 +9,13 @@
 \seandeclaresymbol{lsf}{in,out}
 \seandeclaresymbol{comp}{in,out}
 \seandeclaresymbol{switch}{in,out}
+% --- uscite / diffusori (oltre il canone WB) ---
+\seandeclaresymbol{stone}{in}      % diffusore S.T.One (rombo + diagonale)
+\seandeclaresymbol{lfe}{in}        % diffusore LFE / subwoofer (cerchio)
+% --- trasduttori d'ingresso (oltre il canone WB) ---
+\seandeclaresymbol{soundfield}{o1,o2,o3,o4}             % Soundfield ST450 (4 capsule -> 4 uscite separate)
+\seandeclaresymbol{st450}{i1,i2,i3,i4,o1,o2,o3,o4}      % pre dedicato ST450 (4 in -> 4 out)
+\seandeclaresymbol{pzpickup}{out}                       % pickup piezo bilanciato (sandwich di due dischi)
 
 % --- trasduttori ---
 \seanglyph{gs}{gmic}{%
@@ -78,3 +85,56 @@
   \draw (0.75,-0.5) -- (1.25,0);
   \draw[fill=white] (-0.75,-0.5) circle (2pt);
   \seananchor{in}{(-1.75,0)}\seananchor{out}{(1.75,0)}}
+
+% --- diffusori d'uscita: S.T.One (rombo + diagonale orizz.) e LFE (cerchio) ---
+% testo nel font del documento (non hardcodato): in un documento Datalegreya rende in maiuscolo.
+\seanglyph{gs}{stone}{%
+  \node[diamond, draw, thick, fill=white, minimum size=2.2\seanunit, inner sep=0pt] (d) {};
+  \draw[thick, shorten >=1pt, shorten <=1pt] (d.west) -- (d.east);
+  \node[fill=white, inner sep=1pt, font=\fontsize{18}{18}\selectfont] at (d.center) {stone};
+  \seananchor{in}{(d.north)}}
+
+\seanglyph{gs}{lfe}{%
+  \node[circle, draw, thick, fill=white, minimum size=2.4\seanunit, inner sep=0pt,
+        font=\fontsize{18}{18}\selectfont] (c) {lfe};
+  \seananchor{in}{(c.north)}}
+
+% --- microfono Soundfield ST450: omni (cerchio esterno) + tre figure a 8 in pianta ---
+% (frontale + laterale come 8; verticale = cerchio centrale). Interni very thin, toccano l'esterno.
+\seanglyph{gs}{soundfield}{%
+  % 4 uscite SEPARATE (A-format): cavi disegnati PRIMA, l'omni bianco copre la parte interna
+  \foreach \dx in {-0.15,-0.05,0.05,0.15} \draw (\dx,-0.2) -- (\dx,-1);
+  \draw[fill=white] (0,0) circle (0.5\seanunit);   % omni (come i mic): bianco, copre i cavi interni
+  \draw[very thin] (0, 0.25) circle (0.25);   % 8 frontale: lobi sopra/sotto
+  \draw[very thin] (0,-0.25) circle (0.25);
+  \draw[very thin] ( 0.25,0) circle (0.25);   % 8 laterale: lobi dx/sx
+  \draw[very thin] (-0.25,0) circle (0.25);
+  \draw[very thin] (0,0) circle (0.25);        % 8 verticale in pianta = cerchio (stesso raggio)
+  \seananchor{o1}{(-0.15,-1)}\seananchor{o2}{(-0.05,-1)}\seananchor{o3}{(0.05,-1)}\seananchor{o4}{(0.15,-1)}}
+
+% --- pre dedicato Soundfield ST450: glifo del preamp + "x4", 4 in (sx) e 4 out (dx) ---
+% passo dei rami = passo delle uscite del mic (0.1) per collegarli senza follie.
+\seanglyph{gs}{st450}{%
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \foreach \y in {-0.15,-0.05,0.05,0.15}{%
+    \draw (-0.75,\y) -- (-0.5,\y);   % 4 ingressi
+    \draw (0.5,\y) -- (0.75,\y);}    % 4 uscite
+  \begin{scope}[shift={(-0.05,0)}]
+    \draw[->,very thin,>={Latex[length=1mm, width=1mm]}] (-0.3,-0.3) -- (0.3,0.3);
+    \draw[fill=white] (0:0.3) -- (120:0.3) -- (240:0.3) -- cycle;
+    \node[font=\fontsize{6}{6}\selectfont] at (-0.02,0) {x4};
+  \end{scope}
+  \seananchor{i1}{(-0.75,0.15)}\seananchor{i2}{(-0.75,0.05)}\seananchor{i3}{(-0.75,-0.05)}\seananchor{i4}{(-0.75,-0.15)}%
+  \seananchor{o1}{(0.75,0.15)}\seananchor{o2}{(0.75,0.05)}\seananchor{o3}{(0.75,-0.05)}\seananchor{o4}{(0.75,-0.15)}}
+
+% --- pickup piezo bilanciato (sandwich): due dischi affiancati, il "+" davanti copre il vuoto ---
+% il cerchio vuoto (dietro) entra nel cerchio col "+" (davanti) fino al centro; la barra tocca entrambi.
+% i due cerchi sono centrati sul giunto (uscita sull'asse x=0): ruotato, la connessione resta dritta.
+\seanglyph{gs}{pzpickup}{%
+  \draw (-0.125,0) circle (0.5\seanunit);            % cerchio vuoto (dietro), ~2/3 nascosto
+  \draw[fill=white] (0.125,0) circle (0.5\seanunit); % cerchio col + (davanti)
+  \draw[very thin] (0.125,0) circle (0.25);          % secondo disco interno
+  \draw (0.045,0) -- (0.205,0)  (0.125,-0.08) -- (0.125,0.08);   % "+"
+  \draw[very thick] (-0.625,0.5) -- (0.625,0.5);      % barra di contatto: tocca entrambi i cerchi
+  \draw (0,-0.484) -- (0,-1);                          % stelo d'uscita dal giunto, centrato sull'asse
+  \seananchor{out}{(0,-1)}}

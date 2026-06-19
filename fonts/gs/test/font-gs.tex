@@ -10,6 +10,9 @@
 \seanassertglyph{gs}{gmic}\seanassertglyph{gs}{preamp}\seanassertglyph{gs}{switch}%
 \seanassertglyph{gs}{hpf}\seanassertglyph{gs}{invert}\seanassertglyph{gs}{lsf}%
 \seanassertglyph{gs}{comp}\seanassertglyph{gs}{lspk}%
+% glifi d'estensione: uscite (stone/lfe), Soundfield (mic 4ch + pre st450), piezo bilanciato
+\seanassertglyph{gs}{stone}\seanassertglyph{gs}{lfe}\seanassertglyph{gs}{soundfield}%
+\seanassertglyph{gs}{st450}\seanassertglyph{gs}{pzpickup}%
 % 2) catena reale: usare le ancore prova che -in/-out sono posate
 \begin{tikzpicture}
   \pic[rotate=90]  (m) at (0,0)  {sean symbol=gmic};   % uscita verso destra
@@ -25,5 +28,16 @@
   \draw[seg/analog] (i-out) -- (l-in);
   \draw[seg/analog] (l-out) -- (c-in);
   \draw[seg/analog] (c-out) -- (s-in);
+  % 3) glifi d'estensione (riga sotto): esercito le ancore (multi-canale soundfield/st450 compresi)
+  \pic (pz) at (0,-4)  {sean symbol=pzpickup};
+  \pic (sf) at (2,-4)  {sean symbol=soundfield};
+  \pic (pr) at (4,-4)  {sean symbol=st450};
+  \pic (st) at (6,-4)  {sean symbol=stone};
+  \pic (lf) at (9,-4)  {sean symbol=lfe};
+  \draw[seg/analog] (pz-out) -- ++(0,-0.3);
+  \draw[seg/analog] (sf-o1) -- ++(0,-0.3);  \draw[seg/analog] (sf-o4) -- ++(0,-0.3);
+  \draw[seg/analog] (pr-i1) -- ++(-0.3,0);  \draw[seg/analog] (pr-o4) -- ++(0.3,0);
+  \draw[seg/analog] (st-in) -- ++(0,0.4);
+  \draw[seg/analog] (lf-in) -- ++(0,0.4);
 \end{tikzpicture}
 \end{document}
