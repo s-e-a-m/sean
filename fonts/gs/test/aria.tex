@@ -1,0 +1,57 @@
+%!TEX TS-program = xelatex
+% Catena dell'aria compressa — CIM 2026 (Bertoncini / LAZZARO). Stile SEAN.
+% Circuito del quartetto, scrittura a matrice (come catena-ea):
+%   entrate a sinistra (bombola -> 1o stadio + manometro), uscite in basso (rubinetto -> ago -> codice).
+% Compilazione:
+%   cd fonts/gs/test && TEXINPUTS=/Users/giuseppe/Documents/gitlab/gs/sean: xelatex aria.tex
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{circuitikz}
+\usepackage{fontspec}
+\newfontfamily\datalegreya{Datalegreya}
+\setmainfont{Datalegreya}
+\usetikzlibrary{sean}
+\usetikzlibrary{backgrounds}
+\newif\ifgrid\gridfalse   % griglia di riferimento (passo 1); \gridtrue per rivedere le coordinate
+\input{fonts/wb/font-wb.tex}
+\input{fonts/gs/font-gs.tex}
+\seanusefont{gs}
+
+\begin{document}
+\begin{tikzpicture}
+  % --- GRIGLIA DI RIFERIMENTO (passo 1) — \gridfalse nel preambolo per toglierla ---
+  \ifgrid
+    \begin{scope}[on background layer]
+      \draw[step=1, gray!25, very thin] (-2,-7) grid (10,3);
+      \foreach \gx in {-2,...,10} \node[gray, font=\tiny] at (\gx,3.4) {\gx};
+      \foreach \gy in {-7,...,3} \node[gray, font=\tiny] at (-2.6,\gy) {\gy};
+    \end{scope}
+  \fi
+
+  % --- SORGENTE: bombola -> riduttore di primo stadio (+ manometro HP sopra) ---
+  \pic[rotate=90] (b)   at (0,0) {sean symbol=scuba};
+  \pic[rotate=90] (s1)  at (2,0) {sean symbol=firststage};
+  \draw[seg/analog] (b-out) -- (s1-in);
+  \pic[rotate=90] (mhp) at (2,2) {sean symbol=manometer};
+  \draw[seg/analog] (s1-man) -- (mhp-in);
+
+  % --- USCITE IN BASSO: rubinetto -> ago -> codice (orientamento naturale) ---
+  % #1 = x colonna ; #2 = suffisso pic ; #3 = codice
+  \newcommand{\airout}[3]{%
+    \pic (tap#2) at (#1,-2) {sean symbol=tap};
+    \pic (nee#2) at (#1,-4) {sean symbol=needle};
+    \draw[seg/analog] (tap#2-out) -- (nee#2-in);
+    \node[font={\datalegreya\fontsize{18}{18}\selectfont}] at (#1,-5.2) {#3};
+  }
+  \airout{4}{A}{vli}
+  \airout{5.5}{B}{vlii}
+  \airout{7}{C}{vla}
+  \airout{8.5}{D}{vlc}
+
+  % --- RAMI: escono orizzontali dal 1o stadio, piegano a 90 verso il basso (gap 0,5 -> passo 1,5) ---
+  % nesting anti-incrocio: uscita piu' bassa -> colonna piu' a sinistra.
+  \draw[seg/analog] (s1-o1) -- (4,-0.15)   -- (tapA-in);
+  \draw[seg/analog] (s1-o2) -- (5.5,-0.05) -- (tapB-in);
+  \draw[seg/analog] (s1-o3) -- (7, 0.05)   -- (tapC-in);
+  \draw[seg/analog] (s1-o4) -- (8.5, 0.15) -- (tapD-in);
+\end{tikzpicture}
+\end{document}

@@ -127,6 +127,65 @@
   \seananchor{i1}{(-0.75,0.15)}\seananchor{i2}{(-0.75,0.05)}\seananchor{i3}{(-0.75,-0.05)}\seananchor{i4}{(-0.75,-0.15)}%
   \seananchor{o1}{(0.75,0.15)}\seananchor{o2}{(0.75,0.05)}\seananchor{o3}{(0.75,-0.05)}\seananchor{o4}{(0.75,-0.15)}}
 
+% ================================================================
+% CATENA ARIA COMPRESSA (GS) — sistema pneumatico parallelo all'elettroacustica
+% ================================================================
+% --- bombola d'aria compressa da sub: cerchio del microfono SENZA membrana + sigla ---
+% sorgente di pressione (non un trasduttore): via la barra del diaframma, dentro "sc".
+\seandeclaresymbol{scuba}{out}
+\seanglyph{gs}{scuba}{%
+  \draw (0,0) circle (0.5\seanunit);                 % stesso cerchio del mic
+  \node[fill=white, inner sep=1pt, font=\fontsize{18}{18}\selectfont] at (0,0) {sc};
+  \draw (0,-0.5) -- (0,-1);                            % stelo/condotta d'uscita
+  \seananchor{out}{(0,-1)}}
+
+% --- riduttore di primo stadio (da sub): quadrato diviso in diagonale HP/LP ---
+% diagonale TL->BR (y=-x): triangolo alto-dx = alta pressione (ingresso bombola + presa manometro),
+% triangolo basso-sx = bassa pressione (4 uscite ravvicinate, tecnica Soundfield).
+\seandeclaresymbol{firststage}{in,man,o1,o2,o3,o4}
+\seanglyph{gs}{firststage}{%
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \draw (-0.5,0.5) -- (0.5,-0.5);                      % diagonale HP/LP
+  \node[font=\fontsize{8}{8}\selectfont] at (0.17,0.2)  {hp};   % zona alta pressione
+  \node[font=\fontsize{8}{8}\selectfont] at (-0.17,-0.2){lp};   % zona bassa pressione
+  % ingresso dalla bombola (alto, zona HP)
+  \draw (0,0.5) -- (0,1);
+  % presa manometro HP (centro del lato destro: tutto il lato dx è zona HP)
+  \draw (0.5,0) -- (1,0);
+  % 4 uscite LP ravvicinate (bordo basso) — passo Soundfield
+  \foreach \dx in {-0.15,-0.05,0.05,0.15} \draw (\dx,-0.5) -- (\dx,-1);
+  \seananchor{in}{(0,1)}\seananchor{man}{(1,0)}%
+  \seananchor{o1}{(-0.15,-1)}\seananchor{o2}{(-0.05,-1)}\seananchor{o3}{(0.05,-1)}\seananchor{o4}{(0.15,-1)}}
+
+% --- manometro: quadrante a cerchio + perno + lancetta (terminale di misura) ---
+% una sola ancora 'in' sul lato sinistro: si aggancia in orizzontale alla presa 'man'.
+\seandeclaresymbol{manometer}{in}
+\seanglyph{gs}{manometer}{%
+  \draw (0,0) circle (0.5\seanunit);                 % quadrante
+  \draw (-0.5,0) -- (-1,0);                            % stelo d'ingresso (dalla presa man)
+  \draw[->,>={Latex[length=1.2mm,width=1.2mm]}] (0,0) -- (0.22,0.38);  % lancetta
+  \draw[fill] (0,0) circle (1pt);                     % perno
+  \seananchor{in}{(-1,0)}}
+
+% --- rubinetto di regolazione: quadrato, leva rotante (perno + astina + arco) ---
+% ingresso alto, uscita basso; dentro: perno al centro, astina verso destra (< mezzo lato),
+% arco punteggiato di 90° dalla punta dell'astina giù verso l'uscita = percorso della leva.
+\seandeclaresymbol{tap}{in,out}
+\seanglyph{gs}{tap}{%
+  \draw[fill=white,thick] (-0.5,-0.5) rectangle (0.5,0.5);
+  \draw (0,0.5) -- (0,1);                       % ingresso (alto)
+  \draw (0,0) -- (0.38,0);                        % astina della leva (verso destra)
+  \draw[dotted] (0.38,0) arc (0:-90:0.38);       % arco di rotazione 90° verso l'uscita
+  \draw[fill] (0,0) circle (1.5pt);              % perno
+  \draw (0,-0.5) -- (0,-1);                       % uscita (basso)
+  \seananchor{in}{(0,1)}\seananchor{out}{(0,-1)}}
+
+% --- ago gonfiatore: segmento molto spesso, glifo a sé (si collega col laccio) ---
+\seandeclaresymbol{needle}{in,out}
+\seanglyph{gs}{needle}{%
+  \draw[very thick] (0,0.5) -- (0,-0.5);         % ago, lungo come il lato del quadrato
+  \seananchor{in}{(0,0.5)}\seananchor{out}{(0,-0.5)}}
+
 % --- pickup piezo bilanciato (sandwich): due dischi affiancati, il "+" davanti copre il vuoto ---
 % il cerchio vuoto (dietro) entra nel cerchio col "+" (davanti) fino al centro; la barra tocca entrambi.
 % i due cerchi sono centrati sul giunto (uscita sull'asse x=0): ruotato, la connessione resta dritta.
