@@ -42,5 +42,21 @@ Sul sito in skin `dark` i path neri su trasparente sarebbero invisibili: nel pub
 - Lingua delle descrizioni del vocabolario di `sean` sul sito: rinviata a una sessione dedicata.
 - Il submodule `fonts/wb` punta ancora a GitLab via SSH: pubblicare la doc di un repo che nessuno può compilare è una promessa a metà, quindi la priorità del trasferimento a `s-e-a-m` sale.
 
+## Esecuzione (stessa giornata)
+Scritto il piano delle fasi 0-1 e poi eseguito per intero: `docs/superpowers/plans/2026-08-28-pubblicazione-fase01-sito-e-faust-libraries.md`.
+
+Online e verificato: `/docs/`, `/faust-libraries/`, `/faust-libraries/basic/`, `/faust-libraries/math/` rispondono 200; il vecchio `/faustlibraries/basic/` risponde 404.
+`/faust-libraries/` restituisce `<title>Faust Libraries - SEAM</title>`: è il sito a servirlo, non più la project page del repo.
+
+Scoperta che ha corretto la spec: `doc/build/` non conteneva venti reference pronte, ma due.
+Solo `seam.basic` e `seam.math` hanno funzioni documentate alla fonte; le altre diciotto producono pagine di soli titoli.
+Introdotto un gate di copertura in `publish.sh`, e le diciotto sono diventate voci del `TODO.md` di `faust-libraries`.
+
+Il repo `faust-libraries` non aveva `CLAUDE.md`, `TODO.md` né `logs/`: creati.
+Il README del sito era ancora il boilerplate del tema Minimal Mistakes: riscritto.
+Rifinitura della sidebar aperta come issue `s-e-a-m/faust-libraries#32`.
+
+Restano da fare le fasi 2 (`sean`) e 3 (`seam-ltm`), che avranno piani separati.
+
 ## Chi
 **Chi:** Claude (agente), su indicazione e con le decisioni di Giuseppe.

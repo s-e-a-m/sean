@@ -10,6 +10,12 @@
 
 **Spec:** `docs/superpowers/specs/2026-08-28-pubblicazione-docs-seam-design.md` (nel repo `sean`)
 
+**Stato:** eseguito il 2026-08-28. Tutti e sette i task completati, online e verificati.
+Deviazioni: README, CLAUDE e TODO di `faust-libraries` e del sito scritti in inglese, non in italiano, perché quei repo sono documentati in inglese.
+Il repo `faust-libraries` non aveva `CLAUDE.md`, `TODO.md` né `logs/`: sono stati creati.
+Il README del sito era il boilerplate del tema Minimal Mistakes ed è stato riscritto invece che esteso.
+La rifinitura della sidebar è aperta come issue s-e-a-m/faust-libraries#32.
+
 ## Global Constraints
 
 - Percorso del sito: `/Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io` — di seguito **SITO**.
@@ -56,7 +62,7 @@ L'ordine dei passi non è negoziabile.
 - Consumes: nulla.
 - Produces: il path `/faust-libraries/` libero e assegnato alla collection `libraries` del sito.
 
-- [ ] **Step 1: Verificare lo stato di partenza**
+- [x] **Step 1: Verificare lo stato di partenza**
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" -L https://s-e-a-m.github.io/faust-libraries/
@@ -65,7 +71,7 @@ curl -s -L https://s-e-a-m.github.io/faust-libraries/ | grep -o '<title>[^<]*</t
 
 Atteso: `200`, e un titolo `<title>faust-libraries | SEAM Libraries</title>` — cioè la project page, non il sito.
 
-- [ ] **Step 2: Spegnere GitHub Pages sul repo faust-libraries**
+- [x] **Step 2: Spegnere GitHub Pages sul repo faust-libraries**
 
 ```bash
 gh api -X DELETE repos/s-e-a-m/faust-libraries/pages
@@ -74,7 +80,7 @@ gh api repos/s-e-a-m/faust-libraries/pages
 
 Atteso: la seconda chiamata risponde `404 Not Found`.
 
-- [ ] **Step 3: Verificare che il path si sia liberato**
+- [x] **Step 3: Verificare che il path si sia liberato**
 
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" -L https://s-e-a-m.github.io/faust-libraries/
@@ -83,7 +89,7 @@ curl -s -o /dev/null -w "%{http_code}\n" -L https://s-e-a-m.github.io/faust-libr
 Atteso: `404`.
 La propagazione può richiedere un minuto; se resta `200`, riprovare fra sessanta secondi prima di proseguire.
 
-- [ ] **Step 4: Spostare il permalink della collection**
+- [x] **Step 4: Spostare il permalink della collection**
 
 In `SITO/_config.yml`, sostituire nel blocco `collections:`:
 
@@ -103,12 +109,12 @@ collections:
     permalink: /faust-libraries/:path/
 ```
 
-- [ ] **Step 5: Aggiornare il front matter delle due pagine esistenti**
+- [x] **Step 5: Aggiornare il front matter delle due pagine esistenti**
 
 In `SITO/_libraries/basic.md` la riga 3 diventa `permalink: /faust-libraries/basic/`.
 In `SITO/_libraries/math.md` la riga 3 diventa `permalink: /faust-libraries/math/`.
 
-- [ ] **Step 6: Costruire il sito in locale e verificare i path**
+- [x] **Step 6: Costruire il sito in locale e verificare i path**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -119,7 +125,7 @@ ls _site/faust-libraries/basic/index.html _site/faust-libraries/math/index.html
 
 Atteso: i due `index.html` esistono, e `_site/faustlibraries` non esiste.
 
-- [ ] **Step 7: Commit nel SITO**
+- [x] **Step 7: Commit nel SITO**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -146,7 +152,7 @@ Questo task chiude il buco e crea il punto in cui i tre progetti si presentano i
 - Consumes: i permalink `/faust-libraries/` (Task 1).
 - Produces: la pagina `/docs/`, a cui i piani di `sean` e `seam-ltm` aggiungeranno il proprio blocco.
 
-- [ ] **Step 1: Creare la pagina hub**
+- [x] **Step 1: Creare la pagina hub**
 
 Creare `SITO/_pages/docs.md` con esattamente questo contenuto:
 
@@ -182,7 +188,7 @@ Sixteen VST3 plugins built directly on the Steinberg SDK: format converters, sig
 Coming soon.
 ```
 
-- [ ] **Step 2: Aggiungere la voce al menu principale**
+- [x] **Step 2: Aggiungere la voce al menu principale**
 
 In `SITO/_data/navigation.yml`, nel blocco `main:`, aggiungere come **prima** voce:
 
@@ -196,7 +202,7 @@ main:
 
 Le altre voci (`Categories`, `Tags`, `About`) restano invariate, nello stesso ordine.
 
-- [ ] **Step 3: Costruire e verificare**
+- [x] **Step 3: Costruire e verificare**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -207,7 +213,7 @@ grep -c 'href="/docs/"' _site/faust-libraries/basic/index.html
 
 Atteso: `_site/docs/index.html` esiste, e il grep trova almeno una occorrenza — la voce di menu compare anche dentro le pagine della collection.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -234,7 +240,7 @@ Lo script pubblica solo ciò che è documentato e dichiara la copertura.
 - Consumes: i file `FL/doc/build/seam.*.md` prodotti da `make doc`.
 - Produces: `publish.sh <sito>` scrive `<sito>/_libraries/<nome>.md` per ogni libreria documentata e stampa sull'ultima riga utile `  copertura: N/M`.
 
-- [ ] **Step 1: Scrivere il test che fallisce**
+- [x] **Step 1: Scrivere il test che fallisce**
 
 Creare `FL/doc/scripts/test-publish.sh`:
 
@@ -273,7 +279,7 @@ if [ $fail -eq 0 ]; then echo "TEST PUBLISH OK"; else echo "TEST PUBLISH FAIL"; 
 
 Renderlo eseguibile: `chmod +x FL/doc/scripts/test-publish.sh`.
 
-- [ ] **Step 2: Eseguire il test e vederlo fallire**
+- [x] **Step 2: Eseguire il test e vederlo fallire**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -283,7 +289,7 @@ doc/scripts/test-publish.sh
 
 Atteso: fallisce subito con `publish.sh è uscito con errore` — lo script non esiste ancora.
 
-- [ ] **Step 3: Scrivere `publish.sh`**
+- [x] **Step 3: Scrivere `publish.sh`**
 
 Creare `FL/doc/scripts/publish.sh`:
 
@@ -352,7 +358,7 @@ exit 0
 
 Renderlo eseguibile: `chmod +x FL/doc/scripts/publish.sh`.
 
-- [ ] **Step 4: Eseguire il test e vederlo passare**
+- [x] **Step 4: Eseguire il test e vederlo passare**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -361,7 +367,7 @@ doc/scripts/test-publish.sh
 
 Atteso: tutte le righe `ok`, ultima riga `TEST PUBLISH OK`.
 
-- [ ] **Step 5: Aggiungere il target `publish` al Makefile**
+- [x] **Step 5: Aggiungere il target `publish` al Makefile**
 
 In `FL/doc/Makefile`, aggiungere `publish` e `test` alla riga `.PHONY:` e in fondo al file:
 
@@ -379,7 +385,7 @@ test:
 
 Verificare: `make -C doc test` stampa `TEST PUBLISH OK`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -406,7 +412,7 @@ Si genera dai file già prodotti, estraendo nome e prefisso dall'intestazione.
 - Consumes: la variabile `published` di `publish.sh` (Task 3).
 - Produces: `<sito>/_libraries/index.md` con `permalink: /faust-libraries/`.
 
-- [ ] **Step 1: Aggiungere i controlli al test**
+- [x] **Step 1: Aggiungere i controlli al test**
 
 In `FL/doc/scripts/test-publish.sh`, prima del blocco finale `if [ $fail -eq 0 ]`, aggiungere:
 
@@ -418,7 +424,7 @@ if grep -q '`sba`' "$TMP/_libraries/index.md"; then ok "indice riporta il prefis
 if ! grep -q 'filters' "$TMP/_libraries/index.md"; then ok "indice non linka le escluse"; else bad "indice non linka le escluse"; fi
 ```
 
-- [ ] **Step 2: Eseguire il test e vederlo fallire**
+- [x] **Step 2: Eseguire il test e vederlo fallire**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -427,7 +433,7 @@ doc/scripts/test-publish.sh
 
 Atteso: `FAIL indice generato` e le altre quattro, poi `TEST PUBLISH FAIL`.
 
-- [ ] **Step 3: Generare l'indice in `publish.sh`**
+- [x] **Step 3: Generare l'indice in `publish.sh`**
 
 In `FL/doc/scripts/publish.sh`, prima della riga `npub="$(echo "$published" | wc -w | tr -d ' ')"`, inserire:
 
@@ -458,7 +464,7 @@ In `FL/doc/scripts/publish.sh`, prima della riga `npub="$(echo "$published" | wc
 } > "$COLL/index.md"
 ```
 
-- [ ] **Step 4: Eseguire il test e vederlo passare**
+- [x] **Step 4: Eseguire il test e vederlo passare**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -467,7 +473,7 @@ doc/scripts/test-publish.sh
 
 Atteso: tutte `ok`, poi `TEST PUBLISH OK`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -498,7 +504,7 @@ Va rimossa in questo task, altrimenti dopo il primo publish la chiave comparireb
 - Consumes: la variabile `published` di `publish.sh`.
 - Produces: `navblock.py <file.yml> <nome> < stdin` sostituisce il blocco `# BEGIN <nome>` … `# END <nome>`, creandolo in coda se assente.
 
-- [ ] **Step 1: Aggiungere i controlli al test**
+- [x] **Step 1: Aggiungere i controlli al test**
 
 In `FL/doc/scripts/test-publish.sh`, prima del blocco finale, aggiungere:
 
@@ -512,11 +518,11 @@ n="$(grep -c '# BEGIN libraries' "$TMP/_data/navigation.yml")"
 if [ "$n" -eq 1 ]; then ok "publish idempotente sul nav"; else bad "publish idempotente sul nav (blocchi: $n)"; fi
 ```
 
-- [ ] **Step 2: Eseguire il test e vederlo fallire**
+- [x] **Step 2: Eseguire il test e vederlo fallire**
 
 Atteso: `FAIL blocco nav aperto` e seguenti, poi `TEST PUBLISH FAIL`.
 
-- [ ] **Step 3: Scrivere `navblock.py`**
+- [x] **Step 3: Scrivere `navblock.py`**
 
 Creare `FL/doc/scripts/navblock.py`:
 
@@ -556,7 +562,7 @@ nav.write_text(text)
 
 Renderlo eseguibile: `chmod +x FL/doc/scripts/navblock.py`.
 
-- [ ] **Step 4: Chiamarlo da `publish.sh`**
+- [x] **Step 4: Chiamarlo da `publish.sh`**
 
 In `FL/doc/scripts/publish.sh`, subito dopo la generazione dell'indice, inserire:
 
@@ -576,7 +582,7 @@ In `FL/doc/scripts/publish.sh`, subito dopo la generazione dell'indice, inserire
 } | python3 "$HERE/navblock.py" "$SITE/_data/navigation.yml" libraries
 ```
 
-- [ ] **Step 5: Eseguire il test e vederlo passare**
+- [x] **Step 5: Eseguire il test e vederlo passare**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -586,7 +592,7 @@ doc/scripts/test-publish.sh
 Atteso: tutte `ok`, poi `TEST PUBLISH OK`.
 Il controllo `publish idempotente sul nav` è quello che conta: lancia il publish due volte e verifica che il blocco resti uno solo.
 
-- [ ] **Step 6: Rimuovere il blocco `libraries:` manuale dal sito**
+- [x] **Step 6: Rimuovere il blocco `libraries:` manuale dal sito**
 
 In `SITO/_data/navigation.yml`, cancellare queste righe (il commento e la chiave scritti a mano):
 
@@ -603,7 +609,7 @@ libraries:
 
 Il blocco `main:` resta com'è.
 
-- [ ] **Step 7: Commit in FL**
+- [x] **Step 7: Commit in FL**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -625,7 +631,7 @@ ognuno possiede un blocco fra due marker e non guarda gli altri."
 - Consumes: `make -C doc publish` (Task 3-5), il permalink e il menu (Task 1-2).
 - Produces: il sito pronto da pushare.
 
-- [ ] **Step 1: Rigenerare la documentazione e pubblicare**
+- [x] **Step 1: Rigenerare la documentazione e pubblicare**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
@@ -634,7 +640,7 @@ make -C doc publish
 
 Atteso: due righe `publish basic (10 funzioni)` e `publish math (19 funzioni)`, poi `copertura: 2/20` e l'elenco delle diciotto escluse.
 
-- [ ] **Step 2: Leggere il diff del sito prima di accettarlo**
+- [x] **Step 2: Leggere il diff del sito prima di accettarlo**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -645,7 +651,7 @@ git diff --stat
 Atteso: modificati `_libraries/basic.md`, `_libraries/math.md`, `_data/navigation.yml`; nuovo `_libraries/index.md`.
 Nel diff delle due pagine esistenti devono comparire **solo** i tre campi di provenienza e il commento `<!-- GENERATO … -->`: se cambia il corpo, fermarsi e capire perché.
 
-- [ ] **Step 3: Costruire e verificare in locale**
+- [x] **Step 3: Costruire e verificare in locale**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -656,7 +662,7 @@ grep -c 'faust-diagram' _site/faust-libraries/basic/index.html
 
 Atteso: i tre `index.html` esistono; il grep trova almeno cinque diagrammi — prova che gli SVG inline hanno attraversato il publish intatti.
 
-- [ ] **Step 4: Ispezione visiva**
+- [x] **Step 4: Ispezione visiva**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -667,7 +673,7 @@ Aprire `http://127.0.0.1:4000/docs/`, poi seguire il link alle librerie.
 Verificare: la voce `Docs` è nel menu; `/faust-libraries/` mostra la tabella con `basic` e `math` e i rispettivi prefissi; la sidebar elenca due voci; i diagrammi Faust si vedono sulla skin scura.
 Fermare il server con `Ctrl-C`.
 
-- [ ] **Step 5: Commit e push del sito**
+- [x] **Step 5: Commit e push del sito**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io
@@ -679,7 +685,7 @@ librerie non hanno ancora funzioni documentate alla fonte."
 git push origin master
 ```
 
-- [ ] **Step 6: Verificare online**
+- [x] **Step 6: Verificare online**
 
 Attendere il build di GitHub Pages (uno o due minuti), poi:
 
@@ -702,7 +708,7 @@ Atteso: cinque `200`, e `vecchio path: 404`.
 - Create: `FL/logs/2026-08-28-pubblicazione-web.md`
 - Modify: `SITO/README.md`
 
-- [ ] **Step 1: `FL/README.md` — sezione sulla documentazione online**
+- [x] **Step 1: `FL/README.md` — sezione sulla documentazione online**
 
 Aggiungere in fondo:
 
@@ -719,7 +725,7 @@ Vengono pubblicate solo le librerie che hanno funzioni documentate alla fonte, n
 Il publish non committa: il diff nel repo del sito va letto e accettato a mano.
 ```
 
-- [ ] **Step 2: `FL/CLAUDE.md` — la regola non ovvia**
+- [x] **Step 2: `FL/CLAUDE.md` — la regola non ovvia**
 
 Aggiungere una sezione:
 
@@ -732,7 +738,7 @@ La documentazione vive sul sito `s-e-a-m.github.io`, nella collection `_librarie
 A parità di path la project page ha la precedenza sul user site: riattivandola, le pagine del sito verrebbero costruite e mai servite, senza alcun errore visibile.
 ```
 
-- [ ] **Step 3: `FL/TODO.md` — le diciotto librerie da documentare**
+- [x] **Step 3: `FL/TODO.md` — le diciotto librerie da documentare**
 
 Aggiungere una sezione con una voce per libreria non ancora documentata alla fonte:
 
@@ -762,7 +768,7 @@ Le altre generano pagine di soli titoli e restano escluse dal publish.
 - [ ] `seam.stereophony.lib` — nessun commento estraibile #faust-libraries #avanza
 ```
 
-- [ ] **Step 4: `SITO/README.md` — le regole del sito**
+- [x] **Step 4: `SITO/README.md` — le regole del sito**
 
 Aggiungere:
 
@@ -782,7 +788,7 @@ Fuori dai marker si scrive a mano; dentro, no.
 GitHub Pages dei repo `faust-libraries`, `sean` e `seam-ltm` deve restare **spento**: a parità di path la project page vince sul user site.
 ```
 
-- [ ] **Step 5: Log di sessione in FL**
+- [x] **Step 5: Log di sessione in FL**
 
 Se `FL/logs/` non esiste, crearla.
 Creare `FL/logs/2026-08-28-pubblicazione-web.md` con questo contenuto:
@@ -818,7 +824,7 @@ GitHub Pages di repo spento, così il path resta al sito.
 **Chi:** Claude (agente), su indicazione di Giuseppe.
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/giuseppe/Documents/github/seam/librerie/faust-libraries
