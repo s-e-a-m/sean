@@ -8,7 +8,7 @@ Stato: design approvato, non ancora implementato.
 
 Tre progetti dell'organizzazione `s-e-a-m` hanno documentazione che merita di stare online e non ci sta, o ci sta male.
 
-`faust-libraries` genera già venti reference in `doc/build/` ma solo due sono pubblicate.
+`faust-libraries` genera venti file di reference in `doc/build/`, ma solo due di essi contengono davvero delle funzioni documentate.
 `sean` documenta il proprio vocabolario in un catalogo PDF, invisibile dal web.
 `seam-ltm` ha un README completo che vive solo su GitHub.
 
@@ -156,7 +156,25 @@ Serve un solo pezzo nuovo, `doc/scripts/publish.sh`.
 Per ogni `doc/build/seam.NAME.md` deriva il nome breve, antepone il front matter (`title: "Faust Libraries · NAME"`, `permalink: /faust-libraries/NAME/`, `toc: true`, provenienza) e scrive in `$(SITE)/_libraries/NAME.md`.
 Più `index.md` dall'indice generato.
 
-Il salto è da due librerie a venti, senza lavoro manuale: è già tutto in `doc/build/`, semplicemente non è mai stato trasportato.
+**Il gate di copertura.**
+`doc/build/` non è un magazzino pieno da svuotare: è uno specchio fedele di quanto è documentato alla fonte.
+Misurato il 2026-08-28, rigenerando da zero: `seam.basic` ha dieci funzioni documentate e `seam.math` diciannove; le altre diciotto ne hanno zero.
+Alcune hanno comunque testo e titoli (`filters` 205 righe, `analyzers` 192, `gerzon` 171, `pdclone` 145), due sono vuote del tutto (`dwt`, `stereophony`).
+
+Il motivo sta nel formato del commento alla fonte.
+`faustlib2md.awk` riconosce una funzione solo dal banner Grame, che le diciotto librerie non hanno.
+
+    //-------------------------------`(sba.)sweep`--------------------------------
+    // Repeating sample counter. Differs from `ba.sweep`: …
+    // #### Usage
+
+Hanno i banner di sezione, non quelli di funzione, e il generatore produce pagine di soli titoli.
+
+Quindi `publish.sh` pubblica **solo le librerie con almeno una funzione documentata**, e stampa un rapporto di copertura con l'elenco delle mancanti.
+Oggi pubblica due pagine.
+Man mano che un `.lib` viene documentato alla fonte, la sua pagina compare da sé al publish successivo, senza che lo script cambi.
+
+Documentare le diciotto librerie è lavoro di scrittura tecnica sui `.lib`, non lavoro di pubblicazione: sta fuori da questa spec e va tracciato nel `TODO.md` di `faust-libraries`, una voce per libreria.
 
 ### sean
 
@@ -222,7 +240,8 @@ Le due pagine esistenti diventano raggiungibili, all'indirizzo giusto, dentro un
 È la fase con il miglior rapporto fra valore e lavoro, e va per prima perché libera il path che le altre useranno.
 
 **Fase 1 — `faust-libraries`.**
-Solo `publish.sh`: `doc/build/` è già pieno.
+Solo `publish.sh`, con il gate di copertura.
+Consegna due pagine e il meccanismo che ne pubblicherà venti quando saranno scritte.
 
 **Fase 2 — `sean`.**
 Target `svg`, estrattore `awk`, `currentColor`, pagina reference.
@@ -262,6 +281,10 @@ In questo lavoro si aggiunge al suo `README.md` la mappa delle collection, dei b
 Portarlo allo standard pieno è una decisione a parte, fuori da questa spec.
 
 **La lingua del vocabolario di sean** resta aperta, per una sessione dedicata.
+
+**La copertura della documentazione Faust è 2 su 20.**
+È il punto in cui questo lavoro tocca un limite che non può risolvere: il meccanismo di pubblicazione sarà pronto molto prima del contenuto da pubblicare.
+Il gate di copertura evita il danno (pagine vuote online) ma non colma la lacuna.
 
 ## Documentazione da aggiornare
 
