@@ -107,6 +107,22 @@ Architettura e convenzioni complete e collaudate. **Font WB: trascrizione integr
 
 **Prossimi passi** (cicli successivi): font GS (timpano aumentato — `lsf`, `comp`, `invert`, `hpf` circuitikz) e altri contributori; diagramma della catena elettroacustica per il paper CIM; trasferimento a SEAM (Sustained ElectroAcoustic Music) con nome/remote definitivi e un **manuale circuitikz** (circuitikz è notazione di partitura a pieno titolo — es. i circuiti degli induttori del timpano).
 
+## Documentazione online
+
+La reference dei segni è pubblicata su <https://s-e-a-m.github.io/sean/>.
+
+Si rigenera e si trasporta nel sito con:
+
+    make publish
+
+La pagina è generata dal registro, non scritta a mano: `lib/vocabulary-core.tex` e le dichiarazioni inline dei font sono la fonte, e ogni identità compare con il glifo che ciascun font disegna davvero — fallback incluso — più la colonna che dice da quale font viene.
+
+I glifi sono SVG vettoriali ottenuti compilando un `.tex` generato, una pagina per coppia (identità, font), e convertendo il PDF con `pdftocairo`.
+`dvisvgm` non è utilizzabile: XeLaTeX emette la grafica come PDF specials, e dvisvgm legge quelli di dvips.
+I PNG di `make render` restano al servizio di `make regress` e non c'entrano con la pubblicazione.
+
+Il publish non committa: il diff nel repo del sito va letto e accettato a mano.
+
 ## Licenza
 
 Da definire prima del trasferimento a SEAM.

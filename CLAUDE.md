@@ -63,6 +63,20 @@ I font stanno in `fonts/`: `wb/` è un submodule (`wb-tdme-simboli`, branch `fon
 La compilazione è **XeLaTeX** (richiede il font Datalegreya e `circuitikz` per il ponte).
 Esempio: `TEXINPUTS=<root_di_sean>: xelatex documento.tex`.
 
+### Pubblicazione web
+
+La reference vive sul sito `s-e-a-m.github.io`, nella collection `_sean`, all'URL `/sean/` — lo stesso nome del repo.
+Si pubblica con `make publish`; `make testpub` lancia i quattro test della catena (vocabolario, fallback, glifi, pagina).
+
+**GitHub Pages di questo repo deve restare spento.**
+A parità di path la project page ha la precedenza sul user site: riattivandola, le pagine del sito verrebbero costruite e mai servite, senza errori visibili.
+
+La catena è: `docs/scripts/vocab.awk` legge il registro, `resolve.py` calcola il fallback fra font, `glyphs.sh` rende i glifi in SVG, `publish.py` assembla la pagina.
+Due trappole già pagate, da non reintrodurre: `pdftocairo` scrive il nero come `rgb(0%, 0%, 0%)` e non `#000000`, e numera gli id (`clip-0`) da zero in ogni file — vanno prefissati, o inlinando molti glifi nella stessa pagina ogni `url(#clip-0)` risolve al primo.
+
+Nei font, `% --- ... ---` serve sia da banner di sezione sia da commento che introduce un glifo: i secondi contengono i due punti, ed è così che `vocab.awk` li distingue.
+Chi aggiunge un gruppo di identità nuove gli dia un banner di sezione senza due punti, altrimenti finiscono nella sezione precedente.
+
 ### Note operative
 
 Il submodule `fonts/wb` punta ancora a `git@gitlab.com:giuseppesilvi/wb-tdme-simboli.git`: senza chiave SSH GitLab un clone pubblico non lo scarica (trasferimento a `s-e-a-m` tracciato in `TODO.md`).
