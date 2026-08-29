@@ -179,11 +179,18 @@ Documentare le diciotto librerie è lavoro di scrittura tecnica sui `.lib`, non 
 ### sean
 
 Due pezzi da scrivere, nessuna toolchain nuova.
-Sulla macchina di lavoro sono presenti `xelatex` (TeX Live 2026), `dvisvgm` 3.6, `pdftoppm`, `gawk`, `faust` e `python3`.
+Sulla macchina di lavoro sono presenti `xelatex` (TeX Live 2026), `pdftocairo` e `pdftoppm` (poppler), `gawk`, `faust` e `python3`.
 
 **Il rendering dei glifi.**
 Un target `svg` genera un `.tex` `standalone` con una pagina per coppia (identità, font), iterando su `\sean@allsymbols` come già fa `\seancatalogcompare`.
-Lo compila con `xelatex -no-pdf` e passa l'`.xdv` a `dvisvgm`, una pagina per file: una sola compilazione per tutti i glifi.
+Lo compila con `xelatex` e converte il PDF con `pdftocairo -svg`, una pagina per file: una sola compilazione per tutti i glifi.
+
+**`dvisvgm` non è utilizzabile su questa catena**, benché sia installato.
+Verificato con uno spike il 2026-08-29: XeLaTeX emette la grafica TikZ come PDF specials via `xdvipdfmx`, mentre `dvisvgm` interpreta i PostScript specials di `dvips`.
+Su un `.xdv` di questo repo restituisce `page is empty` e `WARNING: 81 PDF specials ignored`.
+
+Le pagine sono generate dallo script, non da un `\foreach` in TeX: solo così il numero di pagina resta mappato con certezza alla coppia (identità, font).
+Le coppie che non risolvono sono omesse a monte — un glifo assente non è un errore, il substrate disegna un segnaposto tratteggiato, e quaranta segnaposti nella colonna WB sarebbero rumore.
 
 I glifi sono TikZ, cioè vettoriali all'origine.
 `make render` li appiattisce in PNG a 120 dpi perché quel PNG serve al confronto binario di `make regress`: ottimo per la regressione, sbagliato per il web, dove un segno notazionale si sgrana appena si ingrandisce.
@@ -201,8 +208,16 @@ Il risultato è la tabella con WB e GS affiancati: il registro è già la docume
 
 **Il colore.**
 Il sito è in skin `dark`.
-Gli SVG di Faust si portano dietro un `<rect fill:#ffffff>` e restano leggibili su qualsiasi tema; i glifi prodotti da `dvisvgm` sono path neri su trasparente, e su fondo scuro sarebbero invisibili.
-La contromisura è una sostituzione nel publish: nei path generati, `fill` e `stroke` a `#000000` diventano `currentColor`, e il glifo prende il colore del testo che lo circonda.
+Gli SVG di Faust si portano dietro un `<rect fill:#ffffff>` e restano leggibili su qualsiasi tema; i glifi convertiti da `pdftocairo` sono path neri su trasparente, e su fondo scuro sarebbero invisibili.
+La contromisura è una sostituzione nel publish: `pdftocairo` scrive il nero come `rgb(0%, 0%, 0%)` (non come `#000000`), e sia `stroke` sia `fill` con quel valore diventano `currentColor`, così il glifo prende il colore del testo che lo circonda.
+
+**Gli identificatori vanno resi unici prima di inlinare.**
+`pdftocairo` numera `clipPath` e glifi di testo da zero in ogni file: `clip-0`, `clip-1`, `glyph-0-0`.
+Sessanta SVG inlinati nella stessa pagina finiscono nello stesso documento HTML, e ogni `url(#clip-0)` risolve al primo: i glifi verrebbero ritagliati con la maschera di un altro.
+Il publish prefissa gli id con la coppia identità-font.
+
+**L'ereditarietà si legge nella tabella.**
+Ogni colonna font mostra il glifo che quel font disegna davvero, fallback incluso, e una colonna dichiara da quale font viene: è ciò che si vedrebbe scrivendo il diagramma in quel font, più il dato che lo spiega.
 Per un sistema notazionale è anche la scelta concettualmente giusta: un segno è dell'inchiostro del testo in cui sta.
 
 **Il controllo sul submodule.**
