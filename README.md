@@ -35,7 +35,7 @@ logs/                        log di sessione (uno per data)
 Makefile                     test / render / ref / regress
 ```
 
-Il **canone WB** vive in un repo separato ([`wb-tdme-simboli`](https://gitlab.com/giuseppesilvi/wb-tdme-simboli), branch `font-wb-puro`) agganciato come submodule: contiene *solo glifi*, scritti contro il contratto definito qui in `lib/substrate.tex`.
+Il **canone WB** vive in un repo separato ([`wb-tdme-simboli`](https://github.com/s-e-a-m/wb-tdme-simboli), branch `font-wb-puro`) agganciato come submodule: contiene *solo glifi*, scritti contro il contratto definito qui in `lib/substrate.tex`.
 
 ## Uso
 
@@ -106,6 +106,15 @@ Architettura e convenzioni complete e collaudate. **Font WB: trascrizione integr
 **Da verificare con la fonte cartacea** (lettura interpretativa della scansione): i motivi interni dei filtri (`~`/linee per passa-basso/alto/banda/soppressore), la sagoma del CRT in `scope`, le testine (`headplay/rec/erase`), l'eventuale cerchio nel `gensin`.
 
 **Prossimi passi** (cicli successivi): font GS (timpano aumentato — `lsf`, `comp`, `invert`, `hpf` circuitikz) e altri contributori; diagramma della catena elettroacustica per il paper CIM; trasferimento a SEAM (Sustained ElectroAcoustic Music) con nome/remote definitivi e un **manuale circuitikz** (circuitikz è notazione di partitura a pieno titolo — es. i circuiti degli induttori del timpano).
+
+## Clonare
+
+Il font WB è un submodule, quindi:
+
+    git clone --recurse-submodules https://github.com/s-e-a-m/sean.git
+
+Non servono credenziali: il submodule punta a `https://github.com/s-e-a-m/wb-tdme-simboli.git` ed è pubblico.
+Su un clone già fatto senza submodule: `git submodule update --init`.
 
 ## Documentazione online
 

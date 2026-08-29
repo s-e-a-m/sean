@@ -22,11 +22,10 @@
 
 ## Submodule WB → s-e-a-m
 
-- [ ] Trasferire `wb-tdme-simboli` nell'org `s-e-a-m`, poi aggiornare `.gitmodules`
-  → issue [s-e-a-m/sean#1](https://github.com/s-e-a-m/sean/issues/1)
-  (oggi punta a `git@gitlab.com:giuseppesilvi/wb-tdme-simboli.git`, branch `font-wb-puro`)
-  al nuovo indirizzo `s-e-a-m`. Finché non avviene, il clone pubblico di `sean` non
-  scarica il submodule senza chiave SSH GitLab. #sean #blocca
-  **La priorità è salita**: ora che la reference è pubblicata su <https://s-e-a-m.github.io/sean/>,
-  chi arriva dal sito e clona il repo non può rigenerare la pagina né compilare metà dei test.
-  Pubblicare la documentazione di un repo che nessuno può compilare è una promessa a metà.
+- [x] Trasferire `wb-tdme-simboli` nell'org `s-e-a-m` e aggiornare `.gitmodules`. #sean #blocca
+  → issue [s-e-a-m/sean#1](https://github.com/s-e-a-m/sean/issues/1) — fatto il 2026-08-29.
+  Il repo è ora <https://github.com/s-e-a-m/wb-tdme-simboli> (pubblico, default `font-wb-puro`)
+  e `.gitmodules` lo raggiunge via HTTPS. Verificato da un clone anonimo, senza credenziali:
+  `make test` arriva a `ALL TEX OK` e `make svg` rende gli 89 glifi.
+  Il repo GitLab resta come archivio e non è stato toccato.
+
