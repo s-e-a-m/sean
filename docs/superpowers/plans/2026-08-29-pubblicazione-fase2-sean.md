@@ -10,6 +10,15 @@
 
 **Spec:** `docs/superpowers/specs/2026-08-28-pubblicazione-docs-seam-design.md`
 
+**Stato:** eseguito il 2026-08-29. Online e verificato su <https://s-e-a-m.github.io/sean/>.
+
+Deviazioni dal piano, tutte motivate:
+`publish.py` in Python e non `publish.sh` in bash — intrecciare TSV, SVG multi-riga e HTML in bash è fragile.
+La tabella è HTML e non Markdown: una cella Markdown non può contenere i ritorni a capo di un SVG inline.
+Il conteggio delle identità nel piano diceva 43: sono 37 nel canone più 15 estensioni GS.
+I check dei test usano `awk -F'\t'` e non `grep -P`: dentro uno script si usa `/usr/bin/grep` (BSD), che non ha `-P`, anche dove la shell interattiva instrada altrove.
+Aggiunta una colonna compatta «GS from» al posto di «gs ← wb» ripetuto in ogni riga, e un wrapper `div` per lo scroll della tabella.
+
 ## Global Constraints
 
 - Percorso del sito: `/Users/giuseppe/Documents/github/seam/blog/s-e-a-m.github.io` — **SITO**.
@@ -47,7 +56,7 @@
 - Consumes: `lib/vocabulary-core.tex`, `fonts/gs/font-gs.tex`.
 - Produces: su stdout un TSV di quattro campi — `sezione`, `id`, `ancore`, `descrizione` — una riga per identità, nell'ordine di dichiarazione.
 
-- [ ] **Step 1: Scrivere il test che fallisce**
+- [x] **Step 1: Scrivere il test che fallisce**
 
 Creare `SEAN/docs/scripts/test-vocab.sh`:
 
@@ -74,12 +83,12 @@ if [ "$(echo "$out" | cut -f1 | sort -u | wc -l | tr -d ' ')" -eq 7 ]; then ok "
 
 Il nome di sezione è la prima parola significativa del commento `% --- <nome> ---`, minuscola, senza accenti: `sorgenti`, `misura`, `generatori`, `filtri`, `modulatori`, `registrazione`, `trasduttori`.
 
-- [ ] **Step 2: Eseguirlo e vederlo fallire**
+- [x] **Step 2: Eseguirlo e vederlo fallire**
 
 `chmod +x docs/scripts/test-vocab.sh && docs/scripts/test-vocab.sh`
 Atteso: fallisce, `vocab.awk` non esiste.
 
-- [ ] **Step 3: Scrivere `vocab.awk`**
+- [x] **Step 3: Scrivere `vocab.awk`**
 
 ```awk
 # vocab.awk — dal registro TeX a un TSV: sezione, id, ancore, descrizione.
@@ -104,12 +113,12 @@ Atteso: fallisce, `vocab.awk` non esiste.
 }
 ```
 
-- [ ] **Step 4: Eseguirlo e vederlo passare**
+- [x] **Step 4: Eseguirlo e vederlo passare**
 
 Atteso: `TEST VOCAB OK`.
 Se il conteggio delle sezioni non torna, aggiustare la normalizzazione del nome, non il test.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/scripts/vocab.awk docs/scripts/test-vocab.sh
@@ -127,7 +136,7 @@ git commit -m "docs(scripts): il registro del vocabolario e gia dati, un awk lo 
 - Consumes: i file `fonts/*/font-*.tex`.
 - Produces: su stdout un TSV `id⇥font⇥font_che_disegna`, una riga per coppia risolvibile. Le coppie che non risolvono non compaiono.
 
-- [ ] **Step 1: Scrivere il test che fallisce**
+- [x] **Step 1: Scrivere il test che fallisce**
 
 Creare `SEAN/docs/scripts/test-resolve.sh` con questi controlli:
 
@@ -151,9 +160,9 @@ if echo "$out" | grep -qP '^preamp\tgs\tgs$'; then ok "gs ha preamp";           
 [ $fail -eq 0 ] && echo "TEST RESOLVE OK" || { echo "TEST RESOLVE FAIL"; exit 1; }
 ```
 
-- [ ] **Step 2: Eseguirlo e vederlo fallire**
+- [x] **Step 2: Eseguirlo e vederlo fallire**
 
-- [ ] **Step 3: Scrivere `resolve.py`**
+- [x] **Step 3: Scrivere `resolve.py`**
 
 ```python
 #!/usr/bin/env python3
@@ -204,9 +213,9 @@ for ident in order:
             print(f"{ident}\t{font}\t{src}")
 ```
 
-- [ ] **Step 4: Eseguirlo e vederlo passare**
+- [x] **Step 4: Eseguirlo e vederlo passare**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add docs/scripts/resolve.py docs/scripts/test-resolve.sh
@@ -226,7 +235,7 @@ git commit -m "docs(scripts): la catena del fallback, calcolata fuori da TeX"
 - Consumes: l'output di `resolve.py`.
 - Produces: `build/svg/<id>-<font>.svg`, uno per coppia, con id prefissati `<id>-<font>-` e i neri sostituiti da `currentColor`; e `build/svg/manifest.tsv` con `id⇥font⇥pagina`.
 
-- [ ] **Step 1: Scrivere il test che fallisce**
+- [x] **Step 1: Scrivere il test che fallisce**
 
 Creare `SEAN/docs/scripts/test-glyphs.sh`:
 
@@ -260,9 +269,9 @@ if [ -z "$(comm -12 <(echo "$a") <(echo "$b"))" ]; then ok "nessun id in comune"
 [ $fail -eq 0 ] && echo "TEST GLYPHS OK" || { echo "TEST GLYPHS FAIL"; exit 1; }
 ```
 
-- [ ] **Step 2: Eseguirlo e vederlo fallire**
+- [x] **Step 2: Eseguirlo e vederlo fallire**
 
-- [ ] **Step 3: Scrivere `svgclean.py`**
+- [x] **Step 3: Scrivere `svgclean.py`**
 
 ```python
 #!/usr/bin/env python3
@@ -295,7 +304,7 @@ s = s.replace('rgb(0%, 0%, 0%)', 'currentColor')
 path.write_text(s.strip() + "\n")
 ```
 
-- [ ] **Step 4: Scrivere `glyphs.sh`**
+- [x] **Step 4: Scrivere `glyphs.sh`**
 
 Genera un `.tex` con una pagina per coppia, nell'ordine del manifest; compila una volta; converte pagina per pagina.
 
@@ -348,11 +357,11 @@ done < "$WORK/pairs.tsv"
 echo "  resi $page glifi in build/svg/"
 ```
 
-- [ ] **Step 5: Eseguire il test e vederlo passare**
+- [x] **Step 5: Eseguire il test e vederlo passare**
 
 Se la compilazione fallisce, leggere `build/glyphwork/glyphs.log`: la causa piu probabile e un glifo che richiede `circuitikz` o il font Datalegreya assente.
 
-- [ ] **Step 6: Aggiungere il target al Makefile**
+- [x] **Step 6: Aggiungere il target al Makefile**
 
 In `SEAN/Makefile`, aggiungere `svg` a `.PHONY` e:
 
@@ -362,7 +371,7 @@ svg: ; @docs/scripts/glyphs.sh
 
 Verificare che `make test`, `make render` e `make regress` continuino a funzionare: `build/` e nuovo e non tocca `test/ref/`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add docs/scripts/glyphs.sh docs/scripts/svgclean.py docs/scripts/test-glyphs.sh Makefile
@@ -383,13 +392,13 @@ git commit -m "docs(scripts): i glifi in SVG, con gli id resi unici per l'inlini
 - Consumes: `vocab.awk`, `build/svg/manifest.tsv`, gli SVG puliti.
 - Produces: `<sito>/_sean/index.md` e il blocco `sean` in `<sito>/_data/navigation.yml`.
 
-- [ ] **Step 1: Scrivere il test che fallisce**
+- [x] **Step 1: Scrivere il test che fallisce**
 
 `test-publish.sh` costruisce un sito finto in una dir temporanea, lancia `publish.sh`, e verifica: la pagina esiste; ha `permalink: /sean/`; contiene la provenienza; contiene almeno un `<svg` inline; contiene `currentColor`; nomina `gmic` e `preamp`; dichiara `wb` come sorgente di `am` per il font GS; il blocco `# BEGIN sean` c'e ed e unico dopo due esecuzioni. Contare i check con `EXPECTED_CHECKS`, come in faust-libraries.
 
-- [ ] **Step 2: Eseguirlo e vederlo fallire**
+- [x] **Step 2: Eseguirlo e vederlo fallire**
 
-- [ ] **Step 3: Scrivere `publish.sh`**
+- [x] **Step 3: Scrivere `publish.sh`**
 
 Struttura della pagina generata:
 
@@ -420,9 +429,9 @@ significa la colonna della provenienza>
 Le identita GS-only hanno la cella WB vuota (`—`).
 Le sezioni seguono l'ordine del registro.
 
-- [ ] **Step 4: Eseguirlo e vederlo passare**
+- [x] **Step 4: Eseguirlo e vederlo passare**
 
-- [ ] **Step 5: Aggiungere i target al Makefile**
+- [x] **Step 5: Aggiungere i target al Makefile**
 
 ```make
 SITE ?= $(HOME)/Documents/github/seam/blog/s-e-a-m.github.io
@@ -431,7 +440,7 @@ publish: svg ; @docs/scripts/publish.sh $(SITE)
 testpub: ; @docs/scripts/test-publish.sh
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ---
 
@@ -441,18 +450,18 @@ testpub: ; @docs/scripts/test-publish.sh
 - Modify: `SITO/_config.yml`, `SITO/_pages/docs.md`
 - Generati: `SITO/_sean/index.md`, blocco `sean` in `SITO/_data/navigation.yml`
 
-- [ ] **Step 1: Dichiarare la collection**
+- [x] **Step 1: Dichiarare la collection**
 
 In `_config.yml`, sotto `collections:`, aggiungere `sean: { output: true, permalink: /sean/:path/ }`; e in `defaults:` un blocco per `type: sean` con `layout: single`, `author_profile: false`, `toc: true`, `sidebar: nav: "sean"`.
 
-- [ ] **Step 2: Pubblicare e leggere il diff**
+- [x] **Step 2: Pubblicare e leggere il diff**
 
 ```bash
 cd SEAN && make publish
 cd SITO && git status --short && git diff --stat
 ```
 
-- [ ] **Step 3: Costruire e verificare in locale**
+- [x] **Step 3: Costruire e verificare in locale**
 
 ```bash
 cd SITO && bundle exec jekyll build
@@ -462,15 +471,15 @@ grep -c '<svg' _site/sean/index.html
 
 Atteso: la pagina esiste e contiene un `<svg>` per ogni coppia resa.
 
-- [ ] **Step 4: Aggiornare la pagina hub**
+- [x] **Step 4: Aggiornare la pagina hub**
 
 In `_pages/docs.md`, sostituire il `Coming soon.` della sezione SEAN con il link a `/sean/`.
 
-- [ ] **Step 5: Ispezione visiva**
+- [x] **Step 5: Ispezione visiva**
 
 `bundle exec jekyll serve`, aprire `/sean/`, e verificare che i glifi si vedano — **in entrambe le skin**, chiara e scura. E il controllo che conta: che ogni glifo sia il suo, non quello del vicino, che e come si manifesta una collisione di id.
 
-- [ ] **Step 6: Commit e push**
+- [x] **Step 6: Commit e push**
 
 ---
 
@@ -481,10 +490,10 @@ In `_pages/docs.md`, sostituire il `Coming soon.` della sezione SEAN con il link
 - Create: `SEAN/logs/2026-08-29-pubblicazione-web.md`
 - Modify: `SITO/README.md` (riga della collection `sean`)
 
-- [ ] **Step 1: README** — sezione *Documentazione online* con l'URL e `make publish`.
-- [ ] **Step 2: CLAUDE.md** — come si pubblica, e che GitHub Pages del repo resta spento.
-- [ ] **Step 3: TODO.md** — la lingua delle descrizioni del vocabolario (sessione dedicata) e il submodule `fonts/wb` da spostare su `s-e-a-m`, la cui priorita sale ora che la pagina e pubblica.
-- [ ] **Step 4: Log datato** e commit.
+- [x] **Step 1: README** — sezione *Documentazione online* con l'URL e `make publish`.
+- [x] **Step 2: CLAUDE.md** — come si pubblica, e che GitHub Pages del repo resta spento.
+- [x] **Step 3: TODO.md** — la lingua delle descrizioni del vocabolario (sessione dedicata) e il submodule `fonts/wb` da spostare su `s-e-a-m`, la cui priorita sale ora che la pagina e pubblica.
+- [x] **Step 4: Log datato** e commit.
 
 ---
 

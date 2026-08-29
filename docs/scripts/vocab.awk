@@ -6,10 +6,15 @@
 # finiscono in "estensioni".
 BEGIN { section = "estensioni" }
 
+# Nei font lo stesso formato "% --- ... ---" serve a due scopi: banner di
+# sezione del vocabolario, e commento che introduce un singolo glifo. I secondi
+# contengono sempre due punti ("% --- manometro: quadrante a cerchio ---"), i
+# primi mai: e la sola cosa che li distingue senza indovinare.
 /^% *--- .* --- *$/ {
   s = $0
   sub(/^% *--- */, "", s)
   sub(/ *--- *$/, "", s)
+  if (index(s, ":") > 0) next
   section = s
   next
 }

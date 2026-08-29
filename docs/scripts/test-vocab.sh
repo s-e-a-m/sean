@@ -7,7 +7,7 @@ ROOT="$HERE/../.."
 out="$(gawk -f "$HERE/vocab.awk" "$ROOT/lib/vocabulary-core.tex")"
 gs="$(gawk -f "$HERE/vocab.awk" "$ROOT/fonts/gs/font-gs.tex")"
 
-EXPECTED_CHECKS=8
+EXPECTED_CHECKS=10
 fail=0; checks=0
 ok()  { checks=$((checks+1)); echo "  ok   $1"; }
 bad() { checks=$((checks+1)); echo "  FAIL $1"; fail=1; }
@@ -25,6 +25,9 @@ m="$(echo "$gs" | wc -l | tr -d ' ')"
 if [ "$m" -eq 15 ]; then ok "15 estensioni GS"; else bad "15 estensioni GS (trovate $m)"; fi
 if echo "$gs" | has '' preamp "in,out" ""; then ok "preamp estratto"; else bad "preamp estratto"; fi
 if echo "$gs" | has '^estensioni$' preamp "" ""; then ok "sezione di default per le inline"; else bad "sezione di default per le inline"; fi
+
+if echo "$gs" | has '^catena aria compressa' scuba out ""; then ok "catena aria compressa e una sezione"; else bad "catena aria compressa e una sezione"; fi
+if [ "$(echo "$gs" | cut -f1 | grep -c ':')" -eq 0 ]; then ok "nessun commento-glifo preso per sezione"; else bad "nessun commento-glifo preso per sezione"; fi
 
 if [ "$checks" -ne "$EXPECTED_CHECKS" ]; then echo "  FAIL check eseguiti: $checks, attesi: $EXPECTED_CHECKS"; fail=1; fi
 [ $fail -eq 0 ] && echo "TEST VOCAB OK ($checks check)" || { echo "TEST VOCAB FAIL"; exit 1; }
