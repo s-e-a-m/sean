@@ -52,7 +52,26 @@ for line in (svgdir / "manifest.tsv").read_text().splitlines():
     ident, font, src, _page = line.split("\t")
     source[(ident, font)] = src
     fonts.add(font)
-fonts = sorted(fonts)
+
+# I font si ordinano per genealogia, non per alfabeto: WB e del 1976 e GS ne
+# discende, e leggere il derivato prima dell'originale rovescia la lettura.
+# La relazione si ricava dal manifest: se un font disegna qualcosa con il
+# glifo di un altro, quell'altro e il suo genitore.
+parent_of = {}
+for (_i, _f), _s in source.items():
+    if _s != _f:
+        parent_of[_f] = _s
+
+
+def depth(f, _seen=None):
+    d, cur = 0, f
+    while cur in parent_of and d < 10:
+        cur = parent_of[cur]
+        d += 1
+    return d
+
+
+fonts = sorted(fonts, key=lambda f: (depth(f), f))
 
 
 def glyph(ident, font):
@@ -81,8 +100,6 @@ out.append(f"generated_at: {today}")
 out.append("---")
 out.append("")
 out.append("<!-- GENERATO — non modificare qui: la fonte è lib/vocabulary-core.tex e i font in fonts/ -->")
-out.append("# SEAN — Sustained ElectroAcoustic Notation")
-out.append("")
 out.append("A TikZ library for writing electroacoustic block diagrams as scores.")
 out.append("The signs come from Walter Branchi's *Tecnologie della musica elettronica* (1976), transcribed and extended for contemporary use.")
 out.append("")
@@ -104,8 +121,11 @@ out.append("")
 for section, rows in sections:
     out.append(f"## {section}")
     out.append("")
+    out.append('<div class="sean-table-wrap">')
     out.append('<table class="sean-glyphs">')
-    head = ["Sign", "Anchors"] + [f.upper() for f in fonts] + ["Source", "Description"]
+    derived = [f for f in fonts if f in parent_of]
+    head = (["Sign", "Anchors"] + [f.upper() for f in fonts]
+            + [f"{f.upper()} from" for f in derived] + ["Description"])
     out.append("<thead><tr>" + "".join(f"<th>{h}</th>" for h in head) + "</tr></thead>")
     out.append("<tbody>")
     for ident, anchors, desc in rows:
@@ -114,16 +134,14 @@ for section, rows in sections:
         for font in fonts:
             g = glyph(ident, font)
             cells.append(f'<td class="glyph">{g}</td>' if g else "<td></td>")
-        srcs = []
-        for font in fonts:
-            s = source.get((ident, font))
-            if s and s != font:
-                srcs.append(f"{font} ← {s}")
-        cells.append("<td>" + (", ".join(srcs) if srcs else "—") + "</td>")
+        for font in derived:
+            src = source.get((ident, font))
+            cells.append(f"<td><code>{src}</code></td>" if src else "<td></td>")
         cells.append(f"<td>{desc}</td>")
         out.append("<tr>" + "".join(cells) + "</tr>")
     out.append("</tbody>")
     out.append("</table>")
+    out.append("</div>")
     out.append("")
 
 coll = site / "_sean"
