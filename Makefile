@@ -5,7 +5,7 @@ RENDER = pdftoppm -png -r 120
 # Sorgenti che producono output visivo significativo (gli altri test sono solo asserzioni).
 RENDER_SRCS = test/place.tex test/override.tex test/domains.tex test/font-wb.tex test/rotate.tex test/bridge.tex docs/catalog.tex fonts/gs/test/font-gs.tex fonts/gs/test/timpano.tex
 
-.PHONY: test clean render ref regress
+.PHONY: test clean render ref regress svg
 
 TESTS = $(filter-out test/seantest.tex,$(wildcard test/*.tex) $(wildcard fonts/*/test/*.tex))
 
@@ -32,3 +32,6 @@ regress: render ; @ok=1; for f in $(RENDER_SRCS); do d=$$(dirname $$f); b=$$(bas
 	[ $$ok = 1 ] && echo "REGRESS OK" || { echo "REGRESS FAIL"; exit 1; }
 
 clean: ; find . -name '*.aux' -o -name '*.log' -o -name '*.xdv' | xargs rm -f
+
+# Glifi in SVG per la pubblicazione web (i PNG di 'render' restano per regress).
+svg: ; @docs/scripts/glyphs.sh
