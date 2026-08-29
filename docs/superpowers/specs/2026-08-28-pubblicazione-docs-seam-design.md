@@ -238,7 +238,12 @@ In entrambi i casi la fonte della documentazione è già dati, e basta leggerla.
 `seam-ltm` ha come unica fonte le tabelle Markdown del README, cioè prosa formattata, scritta per essere letta e non per essere estratta.
 Un parser costruito su quel file si rompe alla prima riformattazione.
 
-Si crea quindi `doc/plugins.yml`: sedici voci con nome, I/O, famiglia, descrizione, screenshot e il rimando alla libreria Faust corrispondente dove esiste (`m2xhgr`, `lr2xhgr`).
+Si crea quindi il registro: sedici voci con nome, I/O, famiglia, descrizione, screenshot e il rimando alla libreria Faust corrispondente dove esiste (`m2xhgr`, `lr2xhgr`).
+
+Il formato è **TOML** (`doc/plugins.toml`) e non YAML: PyYAML non è nel Python di sistema, il `.venv` del repo porta numpy e scipy per l'analisi e non per la documentazione, e `tomllib` è nella stdlib da Python 3.11 — un generatore di documentazione deve girare su una macchina appena clonata senza installare nulla.
+
+Il registro non si trascrive a mano: si estrae dal README con uno script usa-e-getta, e poi si verifica che le sedici descrizioni siano identiche alle originali.
+Trascrivere sedici descrizioni tecniche introduce errori che nessuno rileggerebbe.
 È l'equivalente di `vocabulary-core.tex` per i plugin.
 
 Da quel registro si generano **due** cose: le schede in `$(SITE)/_ltm/` e le tabelle dei plugin dentro il README del repo.
@@ -246,6 +251,15 @@ Entrambi i generatori si scrivono subito, non uno adesso e uno poi: il README va
 Con una sola fonte, sito e README non possono divergere.
 
 Gli screenshot si copiano da `docs/img/` a `assets/seam-ltm/img/`.
+
+## Stato
+
+Tutte e quattro le fasi sono state eseguite fra il 2026-08-28 e il 2026-08-29, e sono online.
+
+    https://s-e-a-m.github.io/docs/              hub dei tre progetti
+    https://s-e-a-m.github.io/faust-libraries/   2 reference su 20 (gate di copertura)
+    https://s-e-a-m.github.io/sean/              52 identità, 89 glifi
+    https://s-e-a-m.github.io/seam-ltm/          16 schede
 
 ## Fasi
 
