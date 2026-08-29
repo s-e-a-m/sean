@@ -1,4 +1,4 @@
 [submodule "fonts/wb"]
 	path = fonts/wb
-	url = git@gitlab.com:giuseppesilvi/wb-tdme-simboli.git
+	url = https://github.com/s-e-a-m/wb-tdme-simboli.git
 	branch = font-wb-puro
