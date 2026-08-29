@@ -5,7 +5,7 @@ RENDER = pdftoppm -png -r 120
 # Sorgenti che producono output visivo significativo (gli altri test sono solo asserzioni).
 RENDER_SRCS = test/place.tex test/override.tex test/domains.tex test/font-wb.tex test/rotate.tex test/bridge.tex docs/catalog.tex fonts/gs/test/font-gs.tex fonts/gs/test/timpano.tex
 
-.PHONY: test clean render ref regress svg
+.PHONY: test clean render ref regress svg publish testpub
 
 TESTS = $(filter-out test/seantest.tex,$(wildcard test/*.tex) $(wildcard fonts/*/test/*.tex))
 
@@ -35,3 +35,11 @@ clean: ; find . -name '*.aux' -o -name '*.log' -o -name '*.xdv' | xargs rm -f
 
 # Glifi in SVG per la pubblicazione web (i PNG di 'render' restano per regress).
 svg: ; @docs/scripts/glyphs.sh
+
+# Pubblicazione web. Il sito sta in un altro albero (github/seam), quindi il
+# default e assoluto: nessun percorso relativo funziona da qui.
+SITE ?= $(HOME)/Documents/github/seam/blog/s-e-a-m.github.io
+
+publish: svg ; @docs/scripts/publish.py $(SITE)
+
+testpub: ; @docs/scripts/test-vocab.sh && docs/scripts/test-resolve.sh && docs/scripts/test-glyphs.sh && docs/scripts/test-publish.sh
