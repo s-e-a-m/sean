@@ -79,7 +79,7 @@ Chi aggiunge un gruppo di identità nuove gli dia un banner di sezione senza due
 
 ### Note operative
 
-Il submodule `fonts/wb` punta ancora a `git@gitlab.com:giuseppesilvi/wb-tdme-simboli.git`: senza chiave SSH GitLab un clone pubblico non lo scarica (trasferimento a `s-e-a-m` tracciato in `TODO.md`).
+Il submodule `fonts/wb` punta a `https://github.com/s-e-a-m/wb-tdme-simboli.git` (branch `font-wb-puro`), pubblico e raggiungibile senza credenziali: `git clone --recurse-submodules` basta, e un clone anonimo compila e rigenera la reference.
 Il repo è pubblicato su `github.com/s-e-a-m/sean` (default `main`); gli issue vanno aperti lì.
 Le ancore seguono la rotazione del `pic`; le rotazioni e le frecce di direzione sono a carico di chi scrive il diagramma, mai automatiche.
 Prima di toccare i glifi WB controlla le voci "da verificare con la fonte cartacea" elencate nel README.
